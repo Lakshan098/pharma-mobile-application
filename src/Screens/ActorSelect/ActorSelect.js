@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 
-export default function Login() {
+export default function ActorSelect() {
   return (
     <View style={globalStyles.container}>
-      <Text>This is signup</Text>
+      <Text>Actor select page</Text>
     </View>
   );
 }
