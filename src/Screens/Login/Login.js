@@ -6,7 +6,7 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.fullPage}>
+      <View style={globalStyles.fullPage}>
 
         <Image source={require('../../Assets/Images/login.png')} />
 
@@ -61,14 +61,9 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginBottom: 15,
   },
-  fullPage: {
-    backgroundColor: '#fff',
-    flex:1
-  },
 
   signup: {
     color: '#32BBC3',
-    cursor: 'pointer',
   },
 
   options: {
