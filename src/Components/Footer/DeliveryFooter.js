@@ -29,17 +29,22 @@ export default function Footer() {
 const styles = StyleSheet.create({
 
     footerContainer: {
-        opacity:0.8,
-        backgroundColor: 'transparent',
-        height: 40,
+        opacity:1,
+        height: 60,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 35,
         paddingRight: 35,
+        position: 'absolute', 
+        left: 0,
+        right: 0,
+        bottom: 0,
+        flex:0.1,
+        backgroundColor:'#fff',
       },
 
     iconContainer: {
-        marginTop: -20,
+        marginTop:10,
     },
 
     userIcon: {
