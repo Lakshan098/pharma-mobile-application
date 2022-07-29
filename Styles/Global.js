@@ -39,4 +39,15 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: '#fff',
         flex:1
       },
+
+      orderConfirmButton: {
+        padding: 10,
+        marginTop: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#32BBC3',
+      }
 })
