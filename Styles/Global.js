@@ -33,5 +33,10 @@ export const globalStyles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 18,
         color: '#fff'
-    }
+    },
+
+    fullPage: {
+        backgroundColor: '#fff',
+        flex:1
+      },
 })
