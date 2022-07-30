@@ -32,12 +32,13 @@ export const globalStyles = StyleSheet.create({
     buttonText: {
         fontWeight: '500',
         fontSize: 18,
-        color: '#fff'
+        color: '#fff',
+        fontFamily: 'Raleway-ExtraBold',
     },
 
     fullPage: {
         backgroundColor: '#fff',
-        flex:1
+        flex:1,
       },
 
       orderConfirmButton: {
