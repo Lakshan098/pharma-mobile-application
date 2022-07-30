@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     pharmacyTextHeader: {
         fontSize: 20,
         fontWeight:'500',
+        fontFamily: 'Raleway-Bold',
     },
 
     packageDetailsContainer: {
@@ -150,11 +151,13 @@ const styles = StyleSheet.create({
         fontSize:18,
         fontWeight:'600',
         padding:10,
+        fontFamily: 'Raleway-Bold',
     },
 
     content: {
         paddingLeft:10,
         fontSize:16,
+        fontFamily: 'Raleway-SemiBold',
     }
 
 })
