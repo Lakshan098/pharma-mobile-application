@@ -3,6 +3,7 @@ import Dashboard from './src/Routes/deliveryDashboardStack';
 import * as Font from 'expo-font';
 import React, { useState} from 'react';
 import AppLoading from 'expo-app-loading';
+import Orders from './src/Screens/ConfirmedOrders/ConfirmdOrders';
 
 
 const getFonts = () => Font.loadAsync({
@@ -24,7 +25,7 @@ export default function App() {
 
   if(fontsLoaded){
     return (
-      <Dashboard/>
+      <Orders/>
     );
   } else {
     return(
