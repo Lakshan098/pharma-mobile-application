@@ -50,5 +50,13 @@ export const globalStyles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10,
         backgroundColor: '#32BBC3',
-      }
+      },
+
+      boxContainer: {
+        borderWidth:2,
+        marginLeft:20,
+        marginRight: 20,
+        borderRadius:10,
+        borderColor: '#c3c3a2',
+    },
 })
