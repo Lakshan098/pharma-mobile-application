@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         padding: 10,
-        fontFamily: 'Raleway-Bold',
+        fontFamily: 'Raleway-ExtraBold',
     },
 
     orders: {
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontFamily: 'Raleway-SemiBold',
         fontSize: 16,
+        lineHeight:30,
     },
 
     orderContentTitle: {
