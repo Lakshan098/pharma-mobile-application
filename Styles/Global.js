@@ -30,7 +30,6 @@ export const globalStyles = StyleSheet.create({
     },
 
     buttonText: {
-        fontWeight: '500',
         fontSize: 18,
         color: '#fff',
         fontFamily: 'Raleway-ExtraBold',
@@ -59,4 +58,42 @@ export const globalStyles = StyleSheet.create({
         borderRadius:10,
         borderColor: '#c3c3a2',
     },
+
+    doneButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#32BBC3',
+        width:100,
+        height: 35,
+        margin:10,
+    },
+
+    cancelButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#32BBC3',
+        width:100,
+        height: 35,
+        margin:10,
+
+    },
+
+    doneButtonText: {
+        fontSize: 16,
+        color: '#fff',
+        fontFamily: 'Raleway-Bold',
+    },
+
+    registerButton: {
+        padding: 10,
+        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: '#32BBC3',
+    }
 })

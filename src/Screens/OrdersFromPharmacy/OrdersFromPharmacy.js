@@ -43,7 +43,6 @@ export default function DeliveryDashboard() {
                             Your income: Rs.400
                         </Text>
                         <TouchableOpacity
-                            
                             style={globalStyles.orderConfirmButton}>
                             <Text style={globalStyles.buttonText}>Confirm Order</Text>
                         </TouchableOpacity>
@@ -62,7 +61,6 @@ export default function DeliveryDashboard() {
                             Your income: Rs.400
                         </Text>
                         <TouchableOpacity
-                            
                             style={globalStyles.orderConfirmButton}>
                             <Text style={globalStyles.buttonText}>Confirm Order</Text>
                         </TouchableOpacity>
@@ -81,7 +79,6 @@ export default function DeliveryDashboard() {
                             Your income: Rs.400
                         </Text>
                         <TouchableOpacity
-                            
                             style={globalStyles.orderConfirmButton}>
                             <Text style={globalStyles.buttonText}>Confirm Order</Text>
                         </TouchableOpacity>
@@ -100,7 +97,6 @@ export default function DeliveryDashboard() {
                             Your income: Rs.400
                         </Text>
                         <TouchableOpacity
-                            
                             style={globalStyles.orderConfirmButton}>
                             <Text style={globalStyles.buttonText}>Login</Text>
                         </TouchableOpacity>
