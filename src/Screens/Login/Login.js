@@ -1,6 +1,12 @@
 import { Formik } from 'formik';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
+import * as yup from 'yup';
+
+const reviewSchema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().required().min(8)
+})
 
 export default function Login({ navigation }) {
 
@@ -8,12 +14,18 @@ export default function Login({ navigation }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={globalStyles.fullPage}>
 
-        <Image source={require('../../Assets/Images/login.png')} />
+        <Image 
+        style={{
+          height: 180,
+          width: null,
+        }}
+        source={require('../../Assets/Images/login.png')} />
 
         <Text style={globalStyles.header}>Login</Text>
 
         <Formik
           initialValues={{ email: '', password: '' }}
+          validationSchema={reviewSchema}
           onSubmit={(values, actions) => {
             actions.resetForm();
             console.log(values);
@@ -26,7 +38,9 @@ export default function Login({ navigation }) {
                 placeholder='Email'
                 onChangeText={props.handleChange('email')}
                 value={props.values.email}
+                onBlur={props.handleBlur('email')}
               />
+              <Text style={globalStyles.errorText}>{props.touched.email && props.errors.title}</Text>
 
               <TextInput
                 secureTextEntry
@@ -34,7 +48,9 @@ export default function Login({ navigation }) {
                 placeholder='Password'
                 onChangeText={props.handleChange('password')}
                 value={props.values.password}
+                onBlur={props.handleBlur('password')}
               />
+              <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
               <Text style={styles.forgotPassword}>Forgot password?</Text>
 
               <TouchableOpacity

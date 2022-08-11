@@ -95,5 +95,11 @@ export const globalStyles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10,
         backgroundColor: '#32BBC3',
+    },
+
+    errorText: {
+        color: 'crimson',
+        fontFamily: 'Raleway-SemiBold',
+        marginBottom: 7,
     }
 })
