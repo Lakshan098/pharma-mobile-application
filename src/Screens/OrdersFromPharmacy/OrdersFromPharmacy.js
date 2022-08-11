@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     orderList: {
         paddingLeft:35,
         paddingRight:35,
+        marginBottom:20,
     },
     pharmacyPic: {
         width:200,
