@@ -1,13 +1,12 @@
 import { createStackNavigator } from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
-import Dashboard from '../Screens/DeliveryDashboard/DeliveryDashboard';
-import OrdersFromPharmacy from '../Screens/OrdersFromPharmacy/OrdersFromPharmacy';
+import OrdersList from '../Screens/ConfirmedOrders/ConfirmdOrders';
+import Order from '../Screens/DeliveryPackageDetails/DeliveryPackageDetails';
 
 const screens = {
 
-
-    Dashboard: {
-        screen: Dashboard,
+    OrdersList: {
+        screen: OrdersList,
         navigationOptions: {
             headerStyle: {
                 height: 0,
@@ -18,8 +17,8 @@ const screens = {
         }
     },
 
-    OrdersFromPharmacy: {
-        screen: OrdersFromPharmacy,
+    Order: {
+        screen: Order,
         navigationOptions: {
             headerStyle: {
                 height: 0,
@@ -31,6 +30,6 @@ const screens = {
     },
 }
 
-const deliveryDashboard = createStackNavigator(screens);
+const dConfirmedOrder = createStackNavigator(screens);
 
-export default createAppContainer(deliveryDashboard);
+export default createAppContainer(dConfirmedOrder);

@@ -7,6 +7,7 @@ import Footer from '../../Components/Footer/DeliveryFooter';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function DeliveryDashboard({navigation}) {
+
     
     return (
         <View style={globalStyles.fullPage}>

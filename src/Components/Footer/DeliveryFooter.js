@@ -2,40 +2,50 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Home from '../../Routes/deliveryDashboardStack';
-import Orders from '../../Screens/ConfirmedOrders/ConfirmdOrders';
-import History from '../../Screens/CompletedOrders/CompletedOrders';
+import * as Router from '../../../Routes';
+import { Actions } from 'react-native-router-flux';
 
 export default function Footer({navigation}) {
 
-    const OrderFunction = () => {
+    const DHome = () => {
         return(
-            console.log('hellooo')
+            Actions.dDashboard()
             );
     };
 
+    const ConfirmedOrders = () => {
+        return(
+            Actions.dConfirmedOrders()
+            );
+    };
+
+    const CompletedOrders = () => {
+        return(
+            Actions.dCompletedOrders()
+            );
+    };
 
     return (
         <View style={styles.footerContainer}>
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.homeIcon} name="home" size={30} color="#2e2e1f" onPress={OrderFunction}/>
-                    <Text onPress={OrderFunction}>Home</Text>
+                    <Icon style={styles.homeIcon} name="home" size={30} color="#2e2e1f" onPress={DHome}/>
+                    <Text onPress={DHome}>Home</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" />
-                    <Text>Orders</Text>
+                    <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" onPress={ConfirmedOrders}/>
+                    <Text onPress={ConfirmedOrders}>Orders</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.historyIcon} name="history" size={30} color="#2e2e1f" />
-                    <Text>History</Text>
+                    <Icon style={styles.historyIcon} name="history" size={30} color="#2e2e1f" onPress={CompletedOrders}/>
+                    <Text onPress={CompletedOrders}>History</Text>
                 </View>
             </TouchableOpacity>
 
