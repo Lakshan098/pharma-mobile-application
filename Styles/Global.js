@@ -55,6 +55,7 @@ export const globalStyles = StyleSheet.create({
         borderWidth:2,
         marginLeft:20,
         marginRight: 20,
+        marginBottom:30,
         borderRadius:10,
         borderColor: '#c3c3a2',
     },

@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import * as yup from 'yup';
+import { Actions } from 'react-native-router-flux';
 
 const reviewSchema = yup.object({
   email: yup.string().required(),
@@ -29,6 +30,7 @@ export default function Login({ navigation }) {
           onSubmit={(values, actions) => {
             actions.resetForm();
             console.log(values);
+            Actions.dDashboard();
           }}
         >
           {(props) => (

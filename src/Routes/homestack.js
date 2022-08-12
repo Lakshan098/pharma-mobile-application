@@ -20,6 +20,7 @@ const screens = {
                     source={require('../../src/Assets/Brand/Logo1.png')}
                 />
             ),
+            headerTintColor:'white',
         }
     },
     ActorSelect: {
@@ -35,6 +36,7 @@ const screens = {
                     source={require('../../src/Assets/Brand/Logo1.png')}
                 />
             ),
+            headerTintColor:'white',
         }
     },
 
@@ -52,6 +54,7 @@ const screens = {
                     source={require('../../src/Assets/Brand/Logo1.png')}
                 />
             ),
+            headerTintColor:'white',
         }
     },
 }
