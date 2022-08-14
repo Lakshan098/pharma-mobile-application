@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
 
   signup: {
     color: '#32BBC3',
-    cursor: 'pointer',
   },
 
   options: {
