@@ -25,6 +25,12 @@ export default function Footer({navigation}) {
             );
     };
 
+    const Profile = () => {
+        return(
+            Actions.dProfile()
+            );
+    };
+
     return (
         <View style={styles.footerContainer}>
 
@@ -51,8 +57,8 @@ export default function Footer({navigation}) {
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.userIcon} name="user" size={30} color="#2e2e1f" />
-                    <Text>Profile</Text>
+                    <Icon style={styles.userIcon} name="user" size={30} color="#2e2e1f" onPress={Profile}/>
+                    <Text onPress={Profile}>Profile</Text>
                 </View>
             </TouchableOpacity>
             
