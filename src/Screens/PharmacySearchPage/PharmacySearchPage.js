@@ -3,7 +3,7 @@ import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Footer from '../../Components/Footer/DeliveryFooter';
+import Footer from '../../Components/Footer/CustomerFooter';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import  MapView, { PROVIDER_GOOGLE,Marker,Callout} from 'react-native-maps';
 import React,{ useState,useEffect } from 'react';
