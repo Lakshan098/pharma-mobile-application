@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { globalStyles } from '../../../Styles/Global';
 import * as yup from 'yup';
 import { Actions } from 'react-native-router-flux';
@@ -13,7 +14,8 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={globalStyles.fullPage}>
+      
+      <View style={styles.fullPage}>
 
         <Image 
         style={{
@@ -67,6 +69,7 @@ export default function Login({ navigation }) {
         <View style={styles.options}>
           <Text style={styles.noAccount}>Don't have an account? <Text style={styles.signup}>Sign-up</Text></Text>
         </View>
+
       </View>
     </TouchableWithoutFeedback>
   );
@@ -79,9 +82,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginBottom: 15,
   },
+  fullPage: {
+    backgroundColor: '#fff',
+    flex:1
+  },
 
   signup: {
     color: '#32BBC3',
+    cursor: 'pointer',
   },
 
   options: {

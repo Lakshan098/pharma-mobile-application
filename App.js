@@ -3,6 +3,7 @@ import React, { useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import Routes from './Routes';
 
+
 const getFonts = () => Font.loadAsync({
   'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
   'Raleway-Black': require('./assets/fonts/Raleway-Black.ttf'),
