@@ -1,19 +1,7 @@
-import Navigator from './src/Routes/homestack';
-import Dashboard from './src/Routes/deliveryDashboardStack';
 import * as Font from 'expo-font';
 import React, { useState} from 'react';
 import AppLoading from 'expo-app-loading';
-import Orders from './src/Screens/ConfirmedOrders/ConfirmdOrders';
-import CustomerSignup from './src/Screens/CustomerSignup/CustomerSignup';
-import Login from './src/Screens/Login/Login';
-import ActorSelect from './src/Screens/ActorSelect/ActorSelect';
-import ForgotPassword from './src/Screens/ForgotPassword/ForgotPassword';
-import ResetPassword from './src/Screens/ForgotPassword/ResetPassword';
-import DeliveryDashboard from './src/Screens/DeliveryDashboard/DeliveryDashboard';
-import VerifyEmail from './src/Screens/VerifyEmail/VerifyEmail';
-import PharmacySearchPage from './src/Screens/PharmacySearchPage.js/PharmacySearchPage';
-import CustomerProfile from './src/Screens/CustomerProfile/CustomerProfile';
-
+import Routes from './Routes';
 
 
 const getFonts = () => Font.loadAsync({
@@ -35,7 +23,7 @@ export default function App() {
 
   if(fontsLoaded){
     return (
-      <CustomerProfile/>
+      <Routes/>
     );
   } else {
     return(

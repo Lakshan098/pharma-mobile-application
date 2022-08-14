@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
       },
     menu: {
-        paddingTop: 35,
+        paddingTop: 45,
         paddingLeft: 15,
     },
     logo: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         marginTop:20,
     },
     bell: {
-        paddingTop: 35,
+        paddingTop: 45,
         paddingRight: 15,
     },
 

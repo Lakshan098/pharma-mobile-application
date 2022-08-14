@@ -4,8 +4,11 @@ import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/DeliveryFooter';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function DeliveryDashboard() {
+export default function DeliveryDashboard({navigation}) {
+
+    
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -30,32 +33,39 @@ export default function DeliveryDashboard() {
 
             <View style={styles.pharmacyContainer}>
                 <ScrollView>
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
-                    </ImageBackground>
 
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={() => navigation.navigate('OrdersFromPharmacy')}>
+                        <ImageBackground
+                            style={styles.coverImage}
+                            imageStyle={{ borderRadius: 10 }}
+                            source={require('../../Assets/Images/pharmacy1.png')}
+                        >
+                            <View style={styles.darkness} />
+                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
 
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={() => navigation.navigate('OrdersFromPharmacy')}>
+                        <ImageBackground
+                            style={styles.coverImage}
+                            imageStyle={{ borderRadius: 10 }}
+                            source={require('../../Assets/Images/pharmacy1.png')}
+                        >
+                            <View style={styles.darkness} />
+                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => navigation.navigate('OrdersFromPharmacy')}>
+                        <ImageBackground
+                            style={styles.coverImage}
+                            imageStyle={{ borderRadius: 10 }}
+                            source={require('../../Assets/Images/pharmacy1.png')}
+                        >
+                            <View style={styles.darkness} />
+                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
                 <Footer />
@@ -94,6 +104,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
         height: 100,
+        marginBottom:20,
     },
 
     coverImage: {

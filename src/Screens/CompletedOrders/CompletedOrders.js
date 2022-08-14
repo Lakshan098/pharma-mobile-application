@@ -2,8 +2,9 @@ import { View, Image, StyleSheet, Text, ScrollView } from 'react-native';
 import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function DeliveryDashboard() {
+export default function DeliveryDashboard({ navigation }) {
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -16,44 +17,52 @@ export default function DeliveryDashboard() {
             />
             <ScrollView>
                 <View style={globalStyles.boxContainer}>
-                    <Text style={styles.header}>Confirmed Ongoing Orders</Text>
+                    <Text style={styles.header}>Completed Orders</Text>
+                    <View style={styles.ordersList}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                            <View style={styles.orders}>
+                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderContent}>
+                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <View style={styles.orders}>
-                        <Text style={styles.orderId}>Order ID: 00001</Text>
-                        <Text style={styles.orderContent}>
-                            <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                            <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                            <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
-                        </Text>
-                    </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                            <View style={styles.orders}>
+                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderContent}>
+                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <View style={styles.orders}>
-                        <Text style={styles.orderId}>Order ID: 00001</Text>
-                        <Text style={styles.orderContent}>
-                            <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                            <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                            <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
-                        </Text>
-                    </View>
+                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                            <View style={styles.orders}>
+                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderContent}>
+                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <View style={styles.orders}>
-                        <Text style={styles.orderId}>Order ID: 00001</Text>
-                        <Text style={styles.orderContent}>
-                            <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                            <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                            <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
-                        </Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                            <View style={styles.orders}>
+                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderContent}>
+                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
-
-                    <View style={styles.orders}>
-                        <Text style={styles.orderId}>Order ID: 00001</Text>
-                        <Text style={styles.orderContent}>
-                            <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                            <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                            <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
-                        </Text>
-                    </View>
-                    
                 </View>
             </ScrollView>
             <Footer />
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         padding: 10,
-        fontFamily: 'Raleway-Bold',
+        fontFamily: 'Raleway-ExtraBold',
     },
 
     orders: {
@@ -87,10 +96,15 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontFamily: 'Raleway-SemiBold',
         fontSize: 16,
+        lineHeight: 30,
     },
 
     orderContentTitle: {
         fontFamily: 'Raleway-ExtraBold',
+    },
+
+    ordersList: {
+        marginBottom: 20,
     }
 
 })
