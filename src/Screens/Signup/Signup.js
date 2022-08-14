@@ -1,7 +1,8 @@
-import { Keyboard, StyleSheet, Text, View,Image,TouchableWithoutFeedback,TextInput,TouchableOpacity,ScrollView } from 'react-native';
+import { Keyboard, StyleSheet, Text, View,Image,TouchableWithoutFeedback,TextInput,TouchableOpacity,ScrollView,Pressable} from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 
 export default function CustomerSignup({navigation}) {
   return (
@@ -10,7 +11,7 @@ export default function CustomerSignup({navigation}) {
       
         <Image source={require('../../Assets/Images/login.png')} />
 
-        <Text style={globalStyles.header}>Create a customer account</Text>
+        <Text style={globalStyles.header}>Create an account</Text>
         <Formik 
           initialValues={{ name:'',mobile_number: '',email: '', password: '' }}
           onSubmit={(values, actions) => {
@@ -57,7 +58,7 @@ export default function CustomerSignup({navigation}) {
               </TouchableOpacity>
 
               <View style={styles.options}>
-                <Text style={styles.haveAccount}>Have an account? <Text style={styles.signin}>Sign In</Text></Text>
+                <Text style={styles.haveAccount}>Have an account?</Text><Pressable  onPress={() => navigation.navigate('Login')} style={{marginLeft: 8}} ><Text style={styles.signin}>Sign-in</Text></Pressable>
               </View>
               
 

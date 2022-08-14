@@ -4,7 +4,7 @@ import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import Footer from '../../Components/Footer/CustomerFooter';
 
 
 
@@ -18,8 +18,8 @@ export default function CustomerProfile({navigation}) {
 
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={globalStyles.fullPage}>
+    <View style={globalStyles.fullPage}>
+      <ScrollView >
             <View style={styles.Detailsmaincontainer}>
                 <View style={styles.profilepicupdatecontainer}>
                     <View style={styles.profilepiccontainer}>
@@ -268,8 +268,9 @@ export default function CustomerProfile({navigation}) {
 
 
       </ScrollView>
-
-    </TouchableWithoutFeedback>
+     <Footer></Footer>
+    </View>
+    
     
   );
 }

@@ -29,7 +29,7 @@ export default function ForgotPassword({navigation}){
                                 />
 
                                 <TouchableOpacity
-                                    onPress={()=> {props.handleSubmit; }}
+                                    onPress={()=> {navigation.navigate('ResetPassword');}}
                                     style={globalStyles.submitButton}>
                                     <Text style={globalStyles.buttonText}>Reset</Text>
                                 </TouchableOpacity>

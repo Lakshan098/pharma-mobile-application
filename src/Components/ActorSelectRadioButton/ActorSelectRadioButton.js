@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { View, Text ,Pressable,StyleSheet,Image} from 'react-native';
 
-export default function ActorSelectRadioButton({ data, onSelect }) {
+export default function ActorSelectRadioButton({ data, onSelect,navigation }) {
     const [userOption, setUserOption] = useState(null);
     const selectHandler = (value) => {
       onSelect(value);
@@ -17,7 +17,9 @@ export default function ActorSelectRadioButton({ data, onSelect }) {
                     item.value === userOption ? styles.selected : styles.unselected
                     }
                        
-                    onPress={() => selectHandler(item.value)}>
+                    onPress={() => { 
+                      selectHandler(item.value);
+                    }}>
               
                     <Text> {item.value}</Text>
                     <Image

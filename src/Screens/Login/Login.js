@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { globalStyles } from '../../../Styles/Global';
 import * as yup from 'yup';
 import { Actions } from 'react-native-router-flux';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const reviewSchema = yup.object({
   email: yup.string().required(),
@@ -15,7 +16,7 @@ export default function Login({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       
-      <View style={styles.fullPage}>
+      <ScrollView style={styles.fullPage}>
 
         <Image 
         style={{
@@ -32,7 +33,7 @@ export default function Login({ navigation }) {
           onSubmit={(values, actions) => {
             actions.resetForm();
             console.log(values);
-            Actions.dDashboard();
+            Actions.customerDashboard();
           }}
         >
           {(props) => (
@@ -55,7 +56,11 @@ export default function Login({ navigation }) {
                 onBlur={props.handleBlur('password')}
               />
               <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
-              <Text style={styles.forgotPassword}>Forgot password?</Text>
+              <TouchableOpacity
+              onPress={() => Actions.forgotPassword()}>
+                <Text style={styles.forgotPassword}>Forgot password?</Text>
+              </TouchableOpacity>
+              
 
               <TouchableOpacity
                 onPress={props.handleSubmit}
@@ -67,10 +72,10 @@ export default function Login({ navigation }) {
           )}
         </Formik>
         <View style={styles.options}>
-          <Text style={styles.noAccount}>Don't have an account? <Text style={styles.signup}>Sign-up</Text></Text>
+          <Text style={styles.noAccount}>Don't have an account?</Text><Pressable onPress={()=> navigation.navigate('ActorSelect')} style={{marginLeft: 8}} ><Text style={styles.signup}>Sign-up</Text></Pressable>
         </View>
 
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: '400',
     marginBottom: 15,
+    color: '#32BBC3',
   },
   fullPage: {
     backgroundColor: '#fff',
@@ -89,7 +95,6 @@ const styles = StyleSheet.create({
 
   signup: {
     color: '#32BBC3',
-    cursor: 'pointer',
   },
 
   options: {
@@ -98,5 +103,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginTop: -20,
+    marginBottom: 30
   }
 });
