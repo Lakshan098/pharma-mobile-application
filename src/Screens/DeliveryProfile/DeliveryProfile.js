@@ -4,19 +4,24 @@ import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import Footer from '../../Components/Footer/DeliveryFooter';
 import Navbar from '../../Components/Navbar/Navbar';
 
+
+
+
 export default function CustomerProfile({navigation}) {
+
 
   const [usernameEditVisiblity,setUsernameEditVisible] = useState(false)
   const [telephoneEditVisiblity,setTelephoneEditVisible] = useState(false)
   const [emailEditVisiblity,setEmailEditVisible] = useState(false)
 
+
   return (
-    
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={globalStyles.fullPage}>
+    <View style={globalStyles.fullPage}>
+        <Navbar/>
+      <ScrollView >
             <View style={styles.Detailsmaincontainer}>
                 <View style={styles.profilepicupdatecontainer}>
                     <View style={styles.profilepiccontainer}>
@@ -28,6 +33,7 @@ export default function CustomerProfile({navigation}) {
                         <Text style={globalStyles.buttonText}><Icon style={styles.mapMarker}  name="pencil" size={22} color="#fff" /></Text>
                     </TouchableOpacity>
                 </View>
+
 
                 <View style={styles.detailcontainer}>
                     <View style={{paddingHorizontal: 25}}>
@@ -77,10 +83,12 @@ export default function CustomerProfile({navigation}) {
                                             <Text style={globalStyles.buttonText}>Confirm</Text>
                                         </TouchableOpacity>
                                     </View>
+
                                 </View>
                             </Modal>
                     )}
                     </Formik>
+
                 </View>
 
                 <View style={styles.detailcontainer}>
@@ -88,8 +96,9 @@ export default function CustomerProfile({navigation}) {
                         <Text><Icon name="phone" size={22} color="#2e2e1f"/>  Telephone</Text>
                     </View>
                     <View style={styles.inputContainer}>
+
                         <View style={styles.input}><Text>0703414038</Text></View>
-                        
+
                         <TouchableOpacity
                             onPress={() => {setTelephoneEditVisible(!telephoneEditVisiblity)}}
                             style={styles.editbutton}>
@@ -261,8 +270,9 @@ export default function CustomerProfile({navigation}) {
 
 
       </ScrollView>
-
-    </TouchableWithoutFeedback>
+     <Footer></Footer>
+    </View>
+    
     
   );
 }

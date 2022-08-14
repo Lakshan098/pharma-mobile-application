@@ -1,7 +1,11 @@
 import { Formik } from 'formik';
 import { Keyboard, StyleSheet, Text, View,Image,TouchableWithoutFeedback,TextInput,TouchableOpacity,ScrollView } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
+import * as yup from 'yup';
 
+const reviewSchema = yup.object({
+    email: yup.string().required('Please enter Email').email('Please enter valid email'),
+  })
 
 export default function ForgotPassword({navigation}){
 
@@ -14,6 +18,7 @@ export default function ForgotPassword({navigation}){
 
                     <Formik
                         initialValues={{ email:''}}
+                        validationSchema={reviewSchema}
                         onSubmit={(values, actions) => {
                             actions.resetForm();
                             console.log(values);
@@ -26,7 +31,9 @@ export default function ForgotPassword({navigation}){
                                     placeholder='Email'
                                     onChangeText={props.handleChange('email')}
                                     value={props.values.email}
+                                    onBlur={props.handleBlur('email')}
                                 />
+                                <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email}</Text>
 
                                 <TouchableOpacity
                                     onPress={()=> {navigation.navigate('ResetPassword');}}
