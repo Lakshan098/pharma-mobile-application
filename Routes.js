@@ -7,6 +7,8 @@ import DCompletedOrders from './src/Routes/dCompletedOrders'
 import customerDashboard from './src/Routes/customerDashboardStack'
 import customerProfile from './src/Routes/customerProfileStack'
 import ForgotPasswordStack from './src/Routes/forgotPasswordStack'
+import DProfile from './src/Routes/dProfileStack'
+
 
 const Routes = () => (
    <Router>
@@ -18,6 +20,7 @@ const Routes = () => (
          <Scene key = "dDashboard" component = {DDashboard} hideNavBar={true}/>
          <Scene key = "dConfirmedOrders" component = {DConfirmedOrders} hideNavBar={true}/>
          <Scene key = "dCompletedOrders" component = {DCompletedOrders} hideNavBar={true}/>
+         <Scene key = "dProfile" component = {DProfile} hideNavBar={true}/>
       </Scene>
    </Router>
 )
