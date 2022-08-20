@@ -1,12 +1,13 @@
 import { createStackNavigator } from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
 import {Image} from 'react-native';
+import VerifyEmail from '../Screens/VerifyEmail/VerifyEmail'
 
 
 const screens = {
 
-    ResetPassword: {
-        screen: ResetPassword,
+    VerifyEmail: {
+        screen: VerifyEmail,
         navigationOptions: {
             headerStyle: {
                 height: 100,
@@ -23,6 +24,6 @@ const screens = {
     },
 }
 
-const forgotPassword = createStackNavigator(screens);
+const verifyEmail = createStackNavigator(screens);
 
-export default createAppContainer(forgotPassword);
+export default createAppContainer(verifyEmail);

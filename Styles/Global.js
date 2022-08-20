@@ -53,9 +53,10 @@ export const globalStyles = StyleSheet.create({
 
       boxContainer: {
         borderWidth:2,
-        marginLeft:20,
-        marginRight: 20,
+        marginLeft:10,
+        marginRight: 10,
         marginBottom:30,
+        marginTop: 20,
         borderRadius:10,
         borderColor: '#c3c3a2',
     },
