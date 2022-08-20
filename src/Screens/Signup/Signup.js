@@ -3,6 +3,7 @@ import { globalStyles } from '../../../Styles/Global';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
+import client from '../../Api/client';
 import * as yup from 'yup';
 
 const reviewSchema = yup.object({
@@ -19,7 +20,18 @@ const reviewSchema = yup.object({
 
 })
 
-export default function CustomerSignup({navigation}) {
+
+export default function Signup({navigation}) {
+   
+  const signUp = async (values, actions) => { {
+      actions.resetForm();
+      console.log(values);
+      // Actions.VerifyEmail();
+      const res = await client.post({
+        ...values
+      });
+    }
+  } 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView style={globalStyles.fullPage}>
@@ -29,8 +41,9 @@ export default function CustomerSignup({navigation}) {
         <Text style={globalStyles.header}>Create an account</Text>
         <Formik 
           initialValues={{ name:'',mobile_number: '',email: '', password: '' }}
-          validationSchema={reviewSchema}
-          onSubmit={(values, actions) => {
+
+            validationSchema={reviewSchema}
+            onSubmit={(values, actions) => {
             actions.resetForm();
             console.log(values);
           }}

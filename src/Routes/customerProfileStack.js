@@ -1,5 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
+import { Image } from "react-native";
 import CustomerProfile from "../Screens/CustomerProfile/CustomerProfile";
 
 const screens = {
@@ -9,10 +10,16 @@ const screens = {
         screen: CustomerProfile,
         navigationOptions: {
             headerStyle: {
-                height: 0,
+                height: 100,
                 elevation: 0,
+                backgroundColor: '#0f587d'
             },
-            headerTitle:'',
+            headerTitle:(
+                <Image style={{ height: 100, width:140, alignSelf:'center', position:'relative'}}
+                    resizeMode="contain"
+                    source={require('../../src/Assets/Brand/Logo1.png')}
+                />
+            ),
             headerTintColor:'white',
         }
     },

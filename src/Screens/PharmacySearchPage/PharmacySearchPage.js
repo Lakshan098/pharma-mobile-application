@@ -10,7 +10,9 @@ import React,{ useState,useEffect } from 'react';
 
 
 
-export default function PharmacySearchPage() {
+
+
+export default function PharmacySearchPage({navigation}) {
 
     const [visibility, showMap] = useState(false);
     const pressHandler = () => {
@@ -121,7 +123,8 @@ export default function PharmacySearchPage() {
     return (
         
             <View style={globalStyles.fullPage} >
-                <Navbar></Navbar>
+                {/* <Drawer></Drawer>   */}
+                <Navbar navigation={navigation}></Navbar>
                 <ScrollView style={styles.maincontainer}>                
                 <Image
                     style={{

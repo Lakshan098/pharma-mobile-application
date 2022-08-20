@@ -19,6 +19,12 @@ export default function Footer({navigation}) {
             );
     };
 
+    const Orders = () => {
+        return(
+            Actions.ongoingOrders()
+            );
+    };
+
 
     return (
         <View style={styles.footerContainer}>
@@ -32,7 +38,7 @@ export default function Footer({navigation}) {
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" />
+                    <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" onPress={Orders} />
                     <Text>Orders</Text>
                 </View>
             </TouchableOpacity>
