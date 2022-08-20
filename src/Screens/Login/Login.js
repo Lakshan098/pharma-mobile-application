@@ -7,8 +7,8 @@ import { Actions } from 'react-native-router-flux';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const reviewSchema = yup.object({
-  email: yup.string().required(),
-  password: yup.string().required().min(8)
+  email: yup.string().required('Please enter your email').email('Please enter valid email'),
+  password: yup.string().required('Please enter your password').min(8)
 })
 
 export default function Login({ navigation }) {
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
           onSubmit={(values, actions) => {
             actions.resetForm();
             console.log(values);
-            Actions.customerDashboard();
+            Actions.dDashboard();
           }}
         >
           {(props) => (
@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
                 value={props.values.email}
                 onBlur={props.handleBlur('email')}
               />
-              <Text style={globalStyles.errorText}>{props.touched.email && props.errors.title}</Text>
+              <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email}</Text>
 
               <TextInput
                 secureTextEntry
