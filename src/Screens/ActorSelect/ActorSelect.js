@@ -29,7 +29,7 @@ export default function ActorSelect({ navigation }) {
           <ActorSelectRadioButton data={actors} onSelect={(value) => setOption(value)} />
 
           <TouchableOpacity
-            onPress={() => {navigation.navigate('CustomerSignup')}}
+            onPress={() => {navigation.navigate('CustomerSignup',{option})}}
             style={globalStyles.submitButton}>
             <Text style={globalStyles.buttonText}>Get Started</Text>
           </TouchableOpacity>

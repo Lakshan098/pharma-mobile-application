@@ -5,6 +5,9 @@ import { globalStyles } from '../../../Styles/Global';
 import * as yup from 'yup';
 import { Actions } from 'react-native-router-flux';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import client from '../../Api/client';
+import { useState } from 'react';
+import jwt_decode from "jwt-decode";
 
 const reviewSchema = yup.object({
   email: yup.string().required('Please enter your email').email('Please enter valid email'),
@@ -13,28 +16,74 @@ const reviewSchema = yup.object({
 
 export default function Login({ navigation }) {
 
-  return (
+  const [error,setError] = useState("");
+
+  const signIn = async (values, actions) => { {
+      actions.resetForm();
+      console.log(values);
+      const response = await client.post('/Signup/SignIn',{
+          ...values
+      });
+
+      if(response.data){
+        console.log(response.data)
+
+        if (response.data.success == false) {
+          setError("Invalid email or password...!");
+        }
+        else {
+        
+          const token = response.data.token;
+          console.log(token);
+
+
+          if (token) {
+            const users = jwt_decode(response.data.token);
+            console.log(users);
+            window.loggedUserType = users.User_type;
+            window.loggedUserId = users.User_ID;
+            console.log(users.User_type);
+
+            if (window.loggedUserType == "customer") {
+              console.log("Admin dashboard called", window.loggedUserType);
+              Actions.customerDashboard();
+            }
+
+            else if (window.loggedUserType == "delivery_agent") {
+              console.log("Pharmacy dashboard called", window.loggedUserType);
+              Actions.dDashboard();
+
+            }
+
+          }
+          else {
+            window.loggedUserType = null;
+            window.loggedUserId = null;
+          }
+        }
+      }
+
+
+  }}
+
+  return(
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      
+
       <ScrollView style={styles.fullPage}>
 
-        <Image 
-        style={{
-          height: 180,
-          width: null,
-        }}
-        source={require('../../Assets/Images/login.png')} />
+        <Image
+          style={{
+            height: 180,
+            width: null,
+          }}
+          source={require('../../Assets/Images/login.png')} />
 
         <Text style={globalStyles.header}>Login</Text>
 
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={reviewSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm();
-            console.log(values);
-            Actions.dDashboard();
-          }}
+          onSubmit={signIn}
         >
           {(props) => (
             <View style={globalStyles.container}>
@@ -44,6 +93,7 @@ export default function Login({ navigation }) {
                 onChangeText={props.handleChange('email')}
                 value={props.values.email}
                 onBlur={props.handleBlur('email')}
+
               />
               <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email}</Text>
 
@@ -57,11 +107,11 @@ export default function Login({ navigation }) {
               />
               <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
               <TouchableOpacity
-              onPress={() => Actions.forgotPassword()}>
+                onPress={() => Actions.forgotPassword()}>
                 <Text style={styles.forgotPassword}>Forgot password?</Text>
               </TouchableOpacity>
-              
 
+              <Text style={globalStyles.errorText}>{error}</Text>
               <TouchableOpacity
                 onPress={props.handleSubmit}
                 style={globalStyles.submitButton}>
@@ -72,7 +122,7 @@ export default function Login({ navigation }) {
           )}
         </Formik>
         <View style={styles.options}>
-          <Text style={styles.noAccount}>Don't have an account?</Text><Pressable onPress={()=> navigation.navigate('ActorSelect')} style={{marginLeft: 8}} ><Text style={styles.signup}>Sign-up</Text></Pressable>
+          <Text style={styles.noAccount}>Don't have an account?</Text><Pressable onPress={() => navigation.navigate('ActorSelect')} style={{ marginLeft: 8 }} ><Text style={styles.signup}>Sign-up</Text></Pressable>
         </View>
 
       </ScrollView>
@@ -90,7 +140,7 @@ const styles = StyleSheet.create({
   },
   fullPage: {
     backgroundColor: '#fff',
-    flex:1
+    flex: 1
   },
 
   signup: {

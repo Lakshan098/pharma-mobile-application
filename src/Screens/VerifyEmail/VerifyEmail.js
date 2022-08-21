@@ -1,9 +1,34 @@
 import { Formik } from 'formik';
 import { Keyboard, StyleSheet, Text, View,Image,TouchableWithoutFeedback,TextInput,TouchableOpacity,ScrollView } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
+import client from '../../Api/client';
+import { Actions } from 'react-native-router-flux';
+import { useState } from 'react';
+import * as yup from 'yup';
 
+const reviewSchema = yup.object({
+    otp : yup.number().required('Please enter valid OTP'),
+})
 
 export default function verifyEmail({navigation}){
+    const [error,setError] = useState("");
+    const veification = async (values, actions) => { {
+        actions.resetForm();
+            console.log(values);
+            const res = await client.post('/Signup/VerifyOTP',{
+                ...values
+            });
+            if(res.data.success){
+                setError("");
+                Actions.login();
+            }
+            else{
+                setError("Wrong OTP!");
+            }
+            // Actions.login();
+            console.log(error);
+        }
+    } 
    
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -14,11 +39,9 @@ export default function verifyEmail({navigation}){
                     <Text style={styles.boldtext}>We have sent a verification OTP to your email</Text>
                     
                     <Formik
-                        initialValues={{ OTP:''}}
-                        onSubmit={(values, actions) => {
-                            actions.resetForm();
-                            console.log(values);
-                        }}
+                        validationSchema={reviewSchema}
+                        initialValues={{ otp :''}}
+                        onSubmit={veification}
                     >
                         {(props) => (
                             <View style={globalStyles.container}>
@@ -26,12 +49,13 @@ export default function verifyEmail({navigation}){
                                     style={globalStyles.input}
                                     placeholder='Enter OTP'
                                     keyboardType='numeric'
-                                    onChangeText={props.handleChange('email')}
-                                    value={props.values.OTP}
+                                    onChangeText={props.handleChange('otp')}
+                                    value={props.values.otp}
                                 />
+                                <Text style={globalStyles.errorText}>{props.touched.otp && props.errors.otp || error}</Text>
 
                                 <TouchableOpacity
-                                    onPress={()=> {props.handleSubmit; }}
+                                    onPress={props.handleSubmit}
                                     style={globalStyles.submitButton}>
                                     <Text style={globalStyles.buttonText}>Verify</Text>
                                 </TouchableOpacity>
