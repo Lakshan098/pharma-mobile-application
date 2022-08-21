@@ -4,32 +4,41 @@ import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import client from '../../Api/client';
+import { useState } from 'react';
 import * as yup from 'yup';
 
 const reviewSchema = yup.object({
-  name: yup.string().required('Please enter your Name'),
-  mobile_number: yup.string().required('Please enter you Mobile Number'),
-  email: yup.string().required('Please enter Email').email('Please enter valid email'),
-  password: yup
-  .string()
-  .required('Please Enter your password')
-  .matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-  ),
+    username : yup.string().required('Please enter your Name'),
+    contact_number: yup.string().required('Please enter you Mobile Number'),
+    email: yup.string().required('Please enter Email').email('Please enter valid email'),
+    password: yup
+    .string()
+    .required('Please Enter your password')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    ),
 
 })
 
 
 export default function Signup({navigation}) {
-   
+
+  const [error,setError] = useState("");
   const signUp = async (values, actions) => { {
-      actions.resetForm();
-      console.log(values);
-      // Actions.VerifyEmail();
-      const res = await client.post({
+      const res = await client.post('/Signup',{
         ...values
       });
+      if(res.data.success){
+        setError("");
+        Actions.verifyEmail();
+      }
+      else{
+        setError("Email has been taken!");
+      }
+      console.log(res.data);
+      actions.resetForm();
+  
     }
   } 
   return (
@@ -40,34 +49,31 @@ export default function Signup({navigation}) {
 
         <Text style={globalStyles.header}>Create an account</Text>
         <Formik 
-          initialValues={{ name:'',mobile_number: '',email: '', password: '' }}
+          initialValues={{ username:'',contact_number: '',email: '', password: '', user_type: navigation.getParam('option') }}
 
             validationSchema={reviewSchema}
-            onSubmit={(values, actions) => {
-            actions.resetForm();
-            console.log(values);
-          }}
+            onSubmit={signUp}
         >
           {(props) => (
             <View style={globalStyles.container}>
               <TextInput
                 style={globalStyles.input}
                 placeholder= 'First & last name'
-                onChangeText={props.handleChange('name')}
-                value={props.values.name}
-                onBlur={props.handleBlur('name')}
+                onChangeText={props.handleChange('username')}
+                value={props.values.username}
+                onBlur={props.handleBlur('username')}
               />
-                <Text style={globalStyles.errorText}>{props.touched.name && props.errors.name}</Text>
+                <Text style={globalStyles.errorText}>{props.touched.username && props.errors.username}</Text>
 
               <TextInput
                 style={globalStyles.input}
                 placeholder='Mobile number'
                 keyboardType='numeric'
-                onChangeText={props.handleChange('mobile_number')}
-                value={props.values.mobile_number}
-                onBlur={props.handleBlur('mobile_number')}
+                onChangeText={props.handleChange('contact_number')}
+                value={props.values.contact_number}
+                onBlur={props.handleBlur('contact_number')}
               />
-                <Text style={globalStyles.errorText}>{props.touched.mobile_number && props.errors.mobile_number}</Text>
+                <Text style={globalStyles.errorText}>{props.touched.contact_number && props.errors.contact_number}</Text>
 
               <TextInput
                 style={globalStyles.input}
@@ -76,7 +82,7 @@ export default function Signup({navigation}) {
                 value={props.values.email}
                 onBlur={props.handleBlur('email')}
               />
-                <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email}</Text>
+                <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email }</Text>
 
               <TextInput
                 secureTextEntry
@@ -87,7 +93,7 @@ export default function Signup({navigation}) {
                 onBlur={props.handleBlur('password')}
               />
                 <Text style={globalStyles.errorText}>{props.touched.password && props.errors.password}</Text>
-
+                <Text style={globalStyles.errorText}>{error}</Text>
               <TouchableOpacity
                 onPress={props.handleSubmit}
                 style={globalStyles.submitButton}>
