@@ -7,6 +7,7 @@ import Footer from '../../Components/Footer/CustomerFooter';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import  MapView, { PROVIDER_GOOGLE,Marker,Callout} from 'react-native-maps';
 import React,{ useState,useEffect } from 'react';
+import SideNavbar from '../../Components/sideNavbar/sideNavbar';
 
 
 
@@ -61,7 +62,7 @@ export default function PharmacySearchPage({navigation}) {
             imageStyle={{ borderRadius: 10 }}
             source={item.profile_pic}
             >
-                <TouchableHighlight style={styles.darkness}>
+                <TouchableHighlight style={styles.darkness} onPress={() => navigation.navigate('Portal')} >
                     <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
                 </TouchableHighlight>
             
@@ -124,7 +125,7 @@ export default function PharmacySearchPage({navigation}) {
         
             <View style={globalStyles.fullPage} >
                 {/* <Drawer></Drawer>   */}
-                <Navbar navigation={navigation}></Navbar>
+                <SideNavbar/>
                 <ScrollView style={styles.maincontainer}>                
                 <Image
                     style={{
