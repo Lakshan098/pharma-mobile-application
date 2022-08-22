@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import customerDashboard from '../../Screens/CustomerProfile/CustomerProfile';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import customerDashboard from '../../Routes/customerDashboardStack'
 import { NavigationContainer } from '@react-navigation/native';
 
 
@@ -13,11 +13,11 @@ export default function Navbar(navigation) {
     const Drawer = createDrawerNavigator();
 
     function MyDrawer(){
-        console.log("Hello");
+       console.log("hello");
         return (
         <NavigationContainer>
-            <Drawer.Navigator>
-                <Drawer.Screen name="Home" component={customerDashboard} />
+            <Drawer.Navigator >
+                <Drawer.Screen name="profile" component={customerDashboard} />
             </Drawer.Navigator>     
         </NavigationContainer>   
         );
