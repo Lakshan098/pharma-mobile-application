@@ -8,6 +8,7 @@ export default function DeliveryDashboard({ navigation }) {
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
+            <ScrollView style={styles.maincontainer}>  
             <Image
                 style={{
                     height: 250,
@@ -15,7 +16,6 @@ export default function DeliveryDashboard({ navigation }) {
                 }}
                 source={require('../../Assets/Images/completed_orders.png')}
             />
-            <ScrollView>
                 <View style={globalStyles.boxContainer}>
                     <Text style={styles.header}>Completed Orders</Text>
                     <View style={styles.ordersList}>
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Raleway-ExtraBold',
     },
 
-    ordersList: {
-        marginBottom: 20,
-    }
+    maincontainer:{
+        marginBottom: 40,
+    },
 
 })
