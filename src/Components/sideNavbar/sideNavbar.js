@@ -1,17 +1,49 @@
-import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native"; 
-import CustomerProfile from "../../Screens/CustomerProfile/CustomerProfile";
-
-const Drawer = createDrawerNavigator();
-
-export default function sideNavbar(){
+import React, { Component } from "react";
+import { Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger} from "react-native-popup-menu";
+import { StyleSheet, Text, View, Image } from 'react-native';
+export default function SideNavbar(){
     return (
-        <NavigationContainer>
-            <Drawer.Navigator initialRouteName="profile">
-                <Drawer.Screen name="profile" component={CustomerProfile}/>
-            </Drawer.Navigator>
-        </NavigationContainer>
+      <MenuProvider style={{ flexDirection: "column", padding: 30 }}>
+        <Menu onSelect={value => alert(`You Clicked : ${value}`)}>
+
+          <MenuTrigger>
+          <Text style={styles.headerText}>DropDown Menu</Text>
+          </MenuTrigger>
+
+          <MenuOptions>
+            <MenuOption value={"Login"}>
+              <Text style={styles.menuContent}>Login</Text>
+            </MenuOption>
+            <MenuOption value={"Register"}>
+              <Text style={styles.menuContent}>Register</Text>
+            </MenuOption>
+            <MenuOption value={"Download"}>
+              <Text style={styles.menuContent}>Download</Text>
+            </MenuOption>
+            <MenuOption value={"Logout"}>
+              <Text style={styles.menuContent}>Logout</Text>
+            </MenuOption>
+            <MenuOption value={3} disabled={true}>
+              <Text style={styles.menuContent}>Disabled Menu</Text>
+            </MenuOption>
+          </MenuOptions>
+
+        </Menu>
+      </MenuProvider>
     );
+  
 }
 
+const styles = StyleSheet.create({
+    headerText: {
+    fontSize: 20,
+    margin: 10,
+    fontWeight: "bold"
+  },
+  menuContent: {
+    color: "#000",
+    fontWeight: "bold",
+    padding: 2,
+    fontSize: 20
+  }
+});
