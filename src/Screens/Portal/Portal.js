@@ -7,6 +7,8 @@ import { globalStyles } from '../../../Styles/Global';
 import { Formik } from 'formik';
 import { RadioButton, Checkbox } from 'react-native-paper';
 import * as react from 'react';
+import { Actions } from 'react-native-router-flux'; 
+
 import {
     actions,
     RichEditor,
@@ -55,6 +57,7 @@ export default function Portal({ navigation }) {
     return (
         <View style={globalStyles.fullPage} >
             <ScrollView style={styles.maincontainer}>
+    
                 <ImageBackground
                     style={styles.coverImage}
                     imageStyle={{ borderRadius: 10 }}
@@ -65,33 +68,28 @@ export default function Portal({ navigation }) {
                         <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka Pharmacy</Text>{'\n'}Colombo 07{'\n'}9.00am - 8.00pm</Text>
                     </TouchableHighlight>
                 </ImageBackground>
-                <Formik
-                    initialValues={{ age: '' }}
-                    onSubmit={(values, actions) => {
-                        actions.resetForm();
-                        console.log(values);
-                    }}
-                >
-                    {(props) => (
+   
                         <View style={styles.formcontainer}>
                             <View style={styles.datacontainer}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}> Do you have prescription ?</Text>
                                 <RadioButton.Group onValueChange={value => setValue(value)} value={prescription} style={{ flexDirection: 'row' }}>
-                                    <RadioButton.Item label="Yes" value="yes" />
-                                    <RadioButton.Item label="No" value="no" />
+                                    <RadioButton.Item label="Yes" value= "true" />
+                                    <RadioButton.Item label="No" value="false" />
                                 </RadioButton.Group>
                             </View>
+                        
                             <View style={styles.datacontainer}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 6 }}> Age</Text>
                                 <TextInput
                                     style={globalStyles.input}
                                     placeholder='Enter age'
                                     keyboardType='numeric'
-                                    onChangeText={props.handleChange('age')}
-                                    value={props.values.age}
+                                    value={age}
                                 />
                             </View>
-                            <View style={styles.datacontainer}>
+                            { prescription ?  
+                            <View style={styles.datacontainer}> 
+                            
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 30 }}> chronic diseases ?</Text>
 
                                 <View style={styles.checkboxContainer}>
@@ -107,11 +105,12 @@ export default function Portal({ navigation }) {
                                     <Text style={styles.label}>High Blood preasure</Text>
                                     <Checkbox
                                         value={high_bloodpressure}
-                                        onValueChange={vvalue => checkBloodpreassure(value)}
+                                        onValueChange={value => checkBloodpreassure(value)}
                                         style={styles.checkbox}
                                         color='red'
                                     />
                                 </View>
+                            
                                 <View style={styles.checkboxContainer}>
                                     <Text style={styles.label}>Gastritis</Text>
                                     <Checkbox
@@ -121,6 +120,7 @@ export default function Portal({ navigation }) {
                                     />
 
                                 </View>
+                             
                                 <View style={styles.checkboxContainer}>
                                     <Text style={styles.label}>Heart attack</Text>
                                     <Checkbox
@@ -128,8 +128,15 @@ export default function Portal({ navigation }) {
                                         onValueChange={checkHeart}
                                         style={styles.checkbox}
                                     />
+                                    
+                                    
                                 </View>
+                            
+                            </View>
+                            : null
 
+                                }    
+                               
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 30 }}> Do you need delivery ?</Text>
                                     <View style={styles.richTextContainer}>
@@ -170,11 +177,11 @@ export default function Portal({ navigation }) {
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', }}> Do you need delivery ?</Text>
                                     <RadioButton.Group onValueChange={value => askDelivery(value)} value={delivery} style={{ flexDirection: 'row' }}>
-                                        <RadioButton.Item label="Yes" value="yes" />
-                                        <RadioButton.Item label="No" value="no" />
+                                        <RadioButton.Item label="Yes" value="true" />
+                                        <RadioButton.Item label="No" value="false" />
                                     </RadioButton.Group>
                                 </View>
-
+                             {delivery ?                    
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 20 }}> Give destination</Text>
                                     <MapView style={styles.map}
@@ -187,21 +194,18 @@ export default function Portal({ navigation }) {
                                     ></MapView>
                                    
                                 </View>
+                                : null }
                                 <TouchableOpacity
-                                    onPress={props.handleSubmit}
+                                    onPress={Actions.ongoingOrders()}
                                     style={globalStyles.submitButton}>
                                     <Text style={globalStyles.buttonText}>Confirm</Text>
                                 </TouchableOpacity>
                             </View>
+                               
 
-
-                        </View>
-                    )}
-                </Formik>
-
-
+   
             </ScrollView>
-
+            <Footer></Footer>
         </View>
     )
 }

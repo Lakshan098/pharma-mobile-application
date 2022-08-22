@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, ImageBackground, Text, ScrollView,TouchableWithoutFeedback,Keyboard,TouchableHighlight} from 'react-native';
+import { View, Image,Animated, StyleSheet, ImageBackground, Text, ScrollView,TouchableWithoutFeedback,Keyboard,TouchableHighlight} from 'react-native';
 import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
@@ -8,6 +8,7 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import  MapView, { PROVIDER_GOOGLE,Marker,Callout} from 'react-native-maps';
 import React,{ useState,useEffect } from 'react';
 import SideNavbar from '../../Components/sideNavbar/sideNavbar';
+
 
 
 
@@ -125,7 +126,7 @@ export default function PharmacySearchPage({navigation}) {
         
             <View style={globalStyles.fullPage} >
                 {/* <Drawer></Drawer>   */}
-                <SideNavbar/>
+                <Navbar/>
                 <ScrollView style={styles.maincontainer}>                
                 <Image
                     style={{
