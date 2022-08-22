@@ -5,7 +5,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/DeliveryFooter';
 
-export default function DeliveryDashboard() {
+export default function DeliveryDashboard({ navigation }) {
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -16,13 +16,25 @@ export default function DeliveryDashboard() {
 
             <View style={styles.pharmacyContainer}>
                 <ScrollView>
+
+                    <TouchableOpacity onPress={() => navigation.navigate('UnregisterPharmacy')}>
+                        <ImageBackground
+                            style={styles.coverImage}
+                            imageStyle={{ borderRadius: 10 }}
+                            source={require('../../Assets/Images/pharmacy1.png')}
+                        >
+                            <View style={styles.darkness} />
+                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
+
                     <ImageBackground
                         style={styles.coverImage}
                         imageStyle={{ borderRadius: 10 }}
                         source={require('../../Assets/Images/pharmacy1.png')}
                     >
                         <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Suwasana pharmacy</Text>{'\n'}Colombo 10{'\n'}open 8.00am-8.00pm</Text>
                     </ImageBackground>
 
                     <ImageBackground
@@ -31,7 +43,7 @@ export default function DeliveryDashboard() {
                         source={require('../../Assets/Images/pharmacy1.png')}
                     >
                         <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Southern pharmacy</Text>{'\n'}Galle{'\n'}open 9.00am-10.00pm</Text>
                     </ImageBackground>
 
                     <ImageBackground
@@ -40,11 +52,11 @@ export default function DeliveryDashboard() {
                         source={require('../../Assets/Images/pharmacy1.png')}
                     >
                         <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Chandana pharmacy</Text>{'\n'}Tangalle{'\n'}open 8.00am-10.00pm</Text>
                     </ImageBackground>
                 </ScrollView>
             </View>
-                <Footer />
+            <Footer />
         </View>
     )
 }
@@ -55,7 +67,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
         height: 100,
-        marginBottom:40,
+        marginBottom: 40,
     },
 
     coverImage: {
@@ -83,9 +95,9 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        paddingLeft:35,
-        paddingRight:35,
-        paddingTop:15,
+        paddingLeft: 35,
+        paddingRight: 35,
+        paddingTop: 15,
     },
 
     header: {

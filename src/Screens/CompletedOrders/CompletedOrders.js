@@ -21,44 +21,44 @@ export default function DeliveryDashboard({ navigation }) {
                     <View style={styles.ordersList}>
                         <TouchableOpacity onPress={() => navigation.navigate('Order')}>
                             <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderId}>Order ID: 1</Text>
                                 <Text style={styles.orderContent}>
                                     <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
                                     <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No.75, Tangalle Rd, Beliatta
                                 </Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => navigation.navigate('Order')}>
                             <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderId}>Order ID: 2</Text>
                                 <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                    <Text style={styles.orderContentTitle}>From:</Text> Suwasana Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Manuka Dewanarayana{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No.175, Tangalle Rd, Matara
                                 </Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => navigation.navigate('Order')}>
                             <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderId}>Order ID: 3</Text>
                                 <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                    <Text style={styles.orderContentTitle}>From:</Text> Chandana Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Navod Wimalaweera{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No.33, Beliatta Rd, Dickwella
                                 </Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => navigation.navigate('Order')}>
                             <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 00001</Text>
+                                <Text style={styles.orderId}>Order ID: 4</Text>
                                 <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
+                                    <Text style={styles.orderContentTitle}>From:</Text> Southern Pharmacy{'\n'}
+                                    <Text style={styles.orderContentTitle}>To:</Text> Sahan Dilshan{'\n'}
+                                    <Text style={styles.orderContentTitle}>Address:</Text> No.20, Tangalle Rd, Kudawella
                                 </Text>
                             </View>
                         </TouchableOpacity>

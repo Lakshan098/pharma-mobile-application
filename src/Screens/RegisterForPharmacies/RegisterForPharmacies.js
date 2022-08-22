@@ -5,7 +5,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/DeliveryFooter';
 
-export default function DeliveryDashboard() {
+export default function DeliveryDashboard({ navigation }) {
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -38,13 +38,25 @@ export default function DeliveryDashboard() {
 
             <View style={styles.pharmacyContainer}>
                 <ScrollView>
+
+                    <TouchableOpacity onPress={() => navigation.navigate('PharmacyDetails')}>
+                        <ImageBackground
+                            style={styles.coverImage}
+                            imageStyle={{ borderRadius: 10 }}
+                            source={require('../../Assets/Images/pharmacy1.png')}
+                        >
+                            <View style={styles.darkness} />
+                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Aruna pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
+
                     <ImageBackground
                         style={styles.coverImage}
                         imageStyle={{ borderRadius: 10 }}
                         source={require('../../Assets/Images/pharmacy1.png')}
                     >
                         <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Medic pharmacy</Text>{'\n'}Colombo 10{'\n'}open 8.00am-10.00pm</Text>
                     </ImageBackground>
 
                     <ImageBackground
@@ -53,20 +65,11 @@ export default function DeliveryDashboard() {
                         source={require('../../Assets/Images/pharmacy1.png')}
                     >
                         <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
-                    </ImageBackground>
-
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
+                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Ruhunu pharmacy</Text>{'\n'}Matara{'\n'}open 9.00am-8.00pm</Text>
                     </ImageBackground>
                 </ScrollView>
             </View>
-                <Footer />
+            <Footer />
         </View>
     )
 }
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:10,
+        marginTop: 10,
     },
 
     locationIconContainer: {
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
         height: 100,
-        marginBottom:40,
+        marginBottom: 40,
     },
 
     coverImage: {
@@ -131,10 +134,10 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
-        paddingLeft:35,
-        paddingRight:35,
-        paddingBottom:25,
-        paddingTop:25,
+        paddingLeft: 35,
+        paddingRight: 35,
+        paddingBottom: 25,
+        paddingTop: 25,
     },
 
     header: {
@@ -147,9 +150,9 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        display:'flex',
-        flexDirection:'row',
-        marginLeft:25,
+        display: 'flex',
+        flexDirection: 'row',
+        marginLeft: 25,
     }
 
 })
