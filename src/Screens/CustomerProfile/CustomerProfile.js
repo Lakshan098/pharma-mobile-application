@@ -57,9 +57,9 @@ export default function CustomerProfile({navigation}) {
                     >
                         {(props) => (
 
-                            <Modal 
+                            <Modal   visible={usernameEditVisiblity}
                                 transparent = {true}
-                                visible={usernameEditVisiblity}
+                              
                             >
                                 <View style={{backgroundColor:'#000000aa',flex: 1}}>
 

@@ -24,6 +24,11 @@ export default function Footer({navigation}) {
             Actions.ongoingOrders()
             );
     };
+    const CompletedOrders = () => {
+        return(
+            Actions.dCompletedOrders()
+            );
+    };
 
 
     return (
@@ -45,8 +50,8 @@ export default function Footer({navigation}) {
 
             <TouchableOpacity>
                 <View style={styles.iconContainer}>
-                    <Icon style={styles.historyIcon} name="inbox" size={30} color="#2e2e1f" />
-                    <Text >Chat</Text>
+                    <Icon style={styles.historyIcon} name="history" size={30} color="#2e2e1f" onPress={CompletedOrders}/>
+                    <Text onPress={CompletedOrders}>History</Text>
                 </View>
             </TouchableOpacity>
 
