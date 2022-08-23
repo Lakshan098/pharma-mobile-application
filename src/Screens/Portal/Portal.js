@@ -19,7 +19,7 @@ import {
 
 
 export default function Portal({ navigation }) {
-
+    const [age,setAge] = useState('');
     const [prescription, setValue] = React.useState('');
     const [delivery, askDelivery] = React.useState('');
     const [age, setAge] = React.useState('');
@@ -88,7 +88,7 @@ export default function Portal({ navigation }) {
                                     value={age}
                                 />
                             </View>
-                            { prescription ?  
+                            { (prescription== "false") ?  
                             <View style={styles.datacontainer}> 
                             
                                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 30 }}> chronic diseases ?</Text>
@@ -139,7 +139,7 @@ export default function Portal({ navigation }) {
                                 }    
                                
                                 <View style={styles.datacontainer}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 30 }}> Do you need delivery ?</Text>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 30 }}>Upload drug list</Text>
                                     <View style={styles.richTextContainer}>
                                         <RichEditor
                                             ref={richText}
@@ -182,7 +182,7 @@ export default function Portal({ navigation }) {
                                         <RadioButton.Item label="No" value="false" />
                                     </RadioButton.Group>
                                 </View>
-                             {delivery ?                    
+                             {(delivery == "true") ?                    
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 20 }}> Give destination</Text>
                                     <MapView style={styles.map}
@@ -192,7 +192,17 @@ export default function Portal({ navigation }) {
                                         latitudeDelta: 0.115,
                                         longitudeDelta: 0.1121,
                                     }} 
-                                    ></MapView>
+                                    >
+                                        <Marker
+                                    coordinate={{
+                                        latitude: 6.9010964999999995,
+                                        longitude: 79.86043452816955,
+                                    }}
+                                    
+                                >
+                                    
+                                </Marker>
+                                    </MapView>
                                    
                                 </View>
                                 : null }
