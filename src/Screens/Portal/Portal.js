@@ -22,6 +22,7 @@ export default function Portal({ navigation }) {
 
     const [prescription, setValue] = React.useState('');
     const [delivery, askDelivery] = React.useState('');
+    const [age, setAge] = React.useState('');
     const [diabetis, checkdiabetis] = useState(false);
     const [high_bloodpressure, checkBloodpreassure] = useState(false);
     const [gastritis, checkGastritis] = useState(false);
@@ -196,7 +197,7 @@ export default function Portal({ navigation }) {
                                 </View>
                                 : null }
                                 <TouchableOpacity
-                                    onPress={Actions.ongoingOrders()}
+                                    //onPress={Actions.ongoingOrders()}
                                     style={globalStyles.submitButton}>
                                     <Text style={globalStyles.buttonText}>Confirm</Text>
                                 </TouchableOpacity>
@@ -245,6 +246,7 @@ const styles = StyleSheet.create({
     formcontainer: {
         flex: 1,
         padding: 10,
+        marginBottom: 40,
     },
     datacontainer: {
         marginVertical: 10,
