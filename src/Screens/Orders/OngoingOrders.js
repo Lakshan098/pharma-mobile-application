@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function OngoingOrders({ navigation }) {
 
-    const [orderStatus,setStatus] = useState('Processing');
+    const [orderStatus,setStatus] = useState('Delivery');
 
     function statusRendering(){
         if(orderStatus =='Processing'){
@@ -56,7 +56,7 @@ export default function OngoingOrders({ navigation }) {
                                         </TouchableOpacity>   
                                      
                                     </View>
-                                <View style={{flexDirection: 'row',display:'flex',marginVertical:10,justifyContent:'space-evenly'}}>
+                                {/* <View style={{flexDirection: 'row',display:'flex',marginVertical:10,justifyContent:'space-evenly'}}>
                                     <TouchableOpacity
                                         style={styles.acceptbutton}>
                                         <Text style={globalStyles.buttonText}>Accept</Text>
@@ -65,7 +65,7 @@ export default function OngoingOrders({ navigation }) {
                                         style={styles.rejectbutton}>
                                         <Text style={globalStyles.buttonText}>Reject</Text>
                                     </TouchableOpacity> 
-                                </View>
+                                </View> */}
 
                                 <View
                                     style={{
