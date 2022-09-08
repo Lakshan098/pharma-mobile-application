@@ -123,7 +123,7 @@ export default function PharmacySearchPage({navigation}) {
         };
     
     return (
-        
+        console.log(window.loggedUserType),
             <View style={globalStyles.fullPage} >
                 {/* <Drawer></Drawer>   */}
                 <Navbar/>

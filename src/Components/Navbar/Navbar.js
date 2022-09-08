@@ -5,19 +5,20 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import customerDashboard from '../../Screens/CustomerProfile/CustomerProfile';
 import { createDrawerNavigator, openDrawer } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { Actions } from 'react-native-router-flux';
+import { AuthContext } from '../../Context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Navbar({ navigation }) {
 
     const [visibility,setVisibility] = useState(false);
+    const {logout,setLoggedout} = useContext(AuthContext);
 
-    const Home = () => {
-    
+    const Home = () => {   
             Actions.customerDashboard();
             setVisibility(false);
-
     }
 
     const Profile = () => {
@@ -26,14 +27,14 @@ export default function Navbar({ navigation }) {
     };
 
     const Orders = () => {
-  
             Actions.ongoingOrders()
             setVisibility(false)
     };
-    const Logout = () => {
-
-            Actions.login()
-            setVisibility(false)
+    const Logout = async () => {
+            logout();
+            setVisibility(false);
+            setLoggedout()
+            Actions.login();
     };
     
 
