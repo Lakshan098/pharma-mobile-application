@@ -13,7 +13,7 @@ const screens = {
                 height: 100,
                 elevation: 0,               
             },
-            
+            headerLeft: ()=> null,
             headerTitle:(
                 <Image style={{ height: 100, width:140, alignSelf:'center', position:'relative'}}
                     resizeMode="contain"
@@ -31,6 +31,7 @@ const screens = {
                 elevation: 0,
                 backgroundColor: '#0f587d'
             },
+            headerLeft: ()=> null,
             headerTitle:(
                 <Image style={{ height: 100, width:140, alignSelf:'center', position:'relative', marginLeft:-50}}
                     resizeMode="contain"
@@ -50,6 +51,7 @@ const screens = {
                 elevation: 0,
                 backgroundColor: '#0f587d'
             },
+            headerLeft: ()=> null,
             headerTitle:(
                 <Image style={{ height: 100, width:140, alignSelf:'center', position:'relative', marginLeft:-50}}
                     resizeMode="contain"

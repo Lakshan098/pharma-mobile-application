@@ -19,9 +19,9 @@ export default function DeliveryDashboard() {
             <View style={styles.detailContainer}>
                 <Text style={styles.header}>Pharmacy Details</Text>
                 <Text style={styles.content}>
-                    <Text style={styles.orderContentTitle}>Name:</Text> Lanka Pharmacy{'\n'}
-                    <Text style={styles.orderContentTitle}>Address:</Text> No,135, Bouddaloka Mw, Colombo7{'\n'}
-                    <Text style={styles.orderContentTitle}>Telephone: </Text>011-1234567{'\n'}
+                    <Text style={styles.orderContentTitle}>Name:</Text> Aruna Pharmacy{'\n'}
+                    <Text style={styles.orderContentTitle}>Address:</Text> No,35, Galle Rd, Colombo10{'\n'}
+                    <Text style={styles.orderContentTitle}>Telephone: </Text>011-1786567{'\n'}
                     <Text style={styles.orderContentTitle}>Open:</Text> 9.00am - 8.00pm{'\n'}
                     <Text style={styles.orderContentTitle}>Rating: </Text>
                     <Rating
