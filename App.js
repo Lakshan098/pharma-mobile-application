@@ -1,11 +1,8 @@
 import * as Font from 'expo-font';
-import React, { useState} from 'react';
+import React, { useContext, useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import Routes from './Routes';
-
-
-
-
+import { AuthProvider } from './src/Context/AuthContext';
 
 const getFonts = () => Font.loadAsync({
   'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
@@ -21,13 +18,14 @@ const getFonts = () => Font.loadAsync({
 
 
 export default function App() {
-  
-
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   if(fontsLoaded){
     return (
-      <Routes/>
+      <AuthProvider>
+          <Routes/>
+      </AuthProvider>
+
     );
   } else {
     return(

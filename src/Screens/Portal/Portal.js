@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
+import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight,Platform } from 'react-native';
 import Footer from '../../Components/Footer/CustomerFooter';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
@@ -8,6 +8,8 @@ import { Formik } from 'formik';
 import { RadioButton, Checkbox } from 'react-native-paper';
 import * as react from 'react';
 import { Actions } from 'react-native-router-flux'; 
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 
 import {
     actions,
@@ -18,7 +20,8 @@ import {
 
 
 
-export default function Portal({ navigation }) {
+
+export default  function Portal({ navigation }) {
     const [age,setAge] = useState('');
     const [prescription, setValue] = React.useState('');
     const [delivery, askDelivery] = React.useState('');
@@ -53,8 +56,9 @@ export default function Portal({ navigation }) {
             // send data to your server!
         }
     };
-
-
+   
+        const expoPushToken =  Notifications.getExpoPushTokenAsync();
+        console.log(JSON.stringify(expoPushToken));
     return (
         <View style={globalStyles.fullPage} >
             <ScrollView style={styles.maincontainer}>
@@ -80,7 +84,7 @@ export default function Portal({ navigation }) {
                             </View>
                         
                             <View style={styles.datacontainer}>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 6 }}> Age</Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 6 }}></Text>
                                 <TextInput
                                     style={globalStyles.input}
                                     placeholder='Enter age'
@@ -184,7 +188,7 @@ export default function Portal({ navigation }) {
                                 </View>
                              {(delivery == "true") ?                    
                                 <View style={styles.datacontainer}>
-                                    <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 20 }}> Give destination</Text>
+                                    <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 20 }}>Give destination</Text>
                                     <MapView style={styles.map}
                                     region = {{
                                         latitude: 6.9010964999999995,
@@ -207,7 +211,9 @@ export default function Portal({ navigation }) {
                                 </View>
                                 : null }
                                 <TouchableOpacity
+
                                     //onPress={Actions.ongoingOrders()}
+
                                     style={globalStyles.submitButton}>
                                     <Text style={globalStyles.buttonText}>Confirm</Text>
                                 </TouchableOpacity>

@@ -3,11 +3,14 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWi
 import { ScrollView } from 'react-native-gesture-handler';
 import { globalStyles } from '../../../Styles/Global';
 import * as yup from 'yup';
-import { Actions } from 'react-native-router-flux';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import client from '../../Api/client';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import jwt_decode from "jwt-decode";
+import { AuthContext } from '../../Context/AuthContext';
+import { Actions } from 'react-native-router-flux';
+import Routes from '../../../Routes';
+
 
 const reviewSchema = yup.object({
   email: yup.string().required('Please enter your email').email('Please enter valid email'),
@@ -17,6 +20,7 @@ const reviewSchema = yup.object({
 export default function Login({ navigation }) {
 
   const [error,setError] = useState("");
+  const {login,setLoggedin} = useContext(AuthContext);
 
   const signIn = async (values, actions) => { {
       actions.resetForm();
@@ -24,6 +28,7 @@ export default function Login({ navigation }) {
       const response = await client.post('/Signup/SignIn',{
           ...values
       });
+
 
       if(response.data){
         console.log(response.data)
@@ -34,8 +39,8 @@ export default function Login({ navigation }) {
         else {
         
           const token = response.data.token;
-          console.log(token);
 
+          await login(token);
 
           if (token) {
             const users = jwt_decode(response.data.token);
@@ -46,12 +51,16 @@ export default function Login({ navigation }) {
 
             if (window.loggedUserType == "customer") {
               console.log("Admin dashboard called", window.loggedUserType);
+              Actions.refresh();
               Actions.customerDashboard();
+              await setLoggedin();
             }
 
             else if (window.loggedUserType == "delivery_agent") {
               console.log("Pharmacy dashboard called", window.loggedUserType);
+              Actions.refresh();
               Actions.dDashboard();
+              await setLoggedin();
 
             }
 
@@ -62,8 +71,7 @@ export default function Login({ navigation }) {
           }
         }
       }
-
-
+      
   }}
 
   return(
