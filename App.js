@@ -23,7 +23,7 @@ export default function App() {
   if(fontsLoaded){
     return (
       <AuthProvider>
-        <Routes/>
+          <Routes/>
       </AuthProvider>
 
     );

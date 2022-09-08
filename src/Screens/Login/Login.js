@@ -11,6 +11,7 @@ import { AuthContext } from '../../Context/AuthContext';
 import { Actions } from 'react-native-router-flux';
 import Routes from '../../../Routes';
 
+
 const reviewSchema = yup.object({
   email: yup.string().required('Please enter your email').email('Please enter valid email'),
   password: yup.string().required('Please enter your password').min(8)
@@ -39,7 +40,7 @@ export default function Login({ navigation }) {
         
           const token = response.data.token;
 
-          login(token);
+          await login(token);
 
           if (token) {
             const users = jwt_decode(response.data.token);
