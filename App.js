@@ -4,6 +4,7 @@ import AppLoading from 'expo-app-loading';
 import Routes from './Routes';
 import { AuthProvider } from './src/Context/AuthContext';
 
+
 const getFonts = () => Font.loadAsync({
   'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
   'Raleway-Black': require('./assets/fonts/Raleway-Black.ttf'),

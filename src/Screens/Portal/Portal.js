@@ -25,7 +25,6 @@ export default  function Portal({ navigation }) {
     const [age,setAge] = useState('');
     const [prescription, setValue] = React.useState('');
     const [delivery, askDelivery] = React.useState('');
-    const [age, setAge] = React.useState('');
     const [diabetis, checkdiabetis] = useState(false);
     const [high_bloodpressure, checkBloodpreassure] = useState(false);
     const [gastritis, checkGastritis] = useState(false);

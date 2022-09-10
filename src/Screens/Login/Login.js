@@ -20,7 +20,7 @@ const reviewSchema = yup.object({
 export default function Login({ navigation }) {
 
   const [error,setError] = useState("");
-  const {login,setLoggedin} = useContext(AuthContext);
+  // const {login,setLoggedin} = useContext(AuthContext);
 
   const signIn = async (values, actions) => { {
       actions.resetForm();
@@ -40,7 +40,7 @@ export default function Login({ navigation }) {
         
           const token = response.data.token;
 
-          await login(token);
+          // await login(token);
 
           if (token) {
             const users = jwt_decode(response.data.token);
@@ -53,14 +53,14 @@ export default function Login({ navigation }) {
               console.log("Admin dashboard called", window.loggedUserType);
               Actions.refresh();
               Actions.customerDashboard();
-              await setLoggedin();
+              // await setLoggedin();
             }
 
             else if (window.loggedUserType == "delivery_agent") {
               console.log("Pharmacy dashboard called", window.loggedUserType);
               Actions.refresh();
               Actions.dDashboard();
-              await setLoggedin();
+              // await setLoggedin();
 
             }
 
