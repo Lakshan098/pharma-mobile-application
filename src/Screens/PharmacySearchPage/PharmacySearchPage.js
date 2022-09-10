@@ -1,4 +1,4 @@
-import { View, Image, Animated, StyleSheet, ImageBackground, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
+import { View, Image, Animated, StyleSheet, ImageBackground,ActivityIndicator, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
 import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
@@ -9,6 +9,7 @@ import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import React, { useState, useEffect, useCallback } from 'react';
 import SideNavbar from '../../Components/sideNavbar/sideNavbar';
 import client from '../../Api/client';
+import { Actions } from 'react-native-router-flux';
 
 
 
@@ -16,41 +17,18 @@ import client from '../../Api/client';
 
 export default function PharmacySearchPage({ navigation }) {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const pharmacy =[];
+    const pharmacy = [];
 
-    const GetPharmacies = useCallback(async () => {
-        const response = await client.post('/User/GetPharmacies', {});
-        console.log(response);
-        setData(response.data);
-        setLoading(false);
-    });
-    useEffect(() => {
-        GetPharmacies();
-        data.map((object) => {
-            pharmacy.push(
-                {
-                    key: object.uid,
-                    name: object.username,
-                    open_time: '9.00am - 8.00pm',
-                    profile_pic: require('../../Assets/Images/pharmacy1.png'),
-                    address: "Colombo 07",
-                    longitude: 5.947822,
-                    latitude: 5.947822,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                }
-            )
-            console.log(pharmacy);
-        });
-
-
-    }, []);
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState(pharmacy);
 
     const [visibility, showMap] = useState(false);
     const pressHandler = () => {
         showMap(!visibility);
+        Actions.refresh({ key: 'customerDashboard' });
     }
 
     // const pharmacy = [
@@ -88,7 +66,31 @@ export default function PharmacySearchPage({ navigation }) {
     //         longitudeDelta: 0.0121,
     //     },
     // ];
-
+    useEffect( () => {
+        console.log("Loading",loading);
+        client.post('/User/GetPharmacies', {}).then((response)=> 
+        {
+            setData([...response.data])
+            response.data.map((object) => {
+                pharmacy.push(
+                    {
+                        key: object.uid,
+                        name: object.username,
+                        open_time: '9.00am - 8.00pm',
+                        profile_pic: require('../../Assets/Images/pharmacy1.png'),
+                        address: "Colombo 07",
+                        longitude: 5.947822,
+                        latitude: 5.947822,
+                        latitudeDelta: 0.015,
+                        longitudeDelta: 0.0121,
+                    }
+                )                    
+            })
+            console.log("Pharamcies", pharmacy);
+            setFilteredDataSource(pharmacy);
+            setMasterDataSource(pharmacy);
+        });
+    },[]);
 
     const pharmacyitems = ({ item }) => (
         <ImageBackground
@@ -123,15 +125,6 @@ export default function PharmacySearchPage({ navigation }) {
     );
 
 
-    const [search, setSearch] = useState('');
-    const [filteredDataSource, setFilteredDataSource] = useState([]);
-    const [masterDataSource, setMasterDataSource] = useState(pharmacy);
-
-    useEffect(() => {
-        setFilteredDataSource(pharmacy);
-        setMasterDataSource(pharmacy);
-    }, []);
-
     const searchFilterFunction = (text) => {
         // Check if searched text is not blank
         if (text) {
@@ -155,8 +148,12 @@ export default function PharmacySearchPage({ navigation }) {
         }
     };
 
+    if (data == null) return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+            <ActivityIndicator size="large" />
+        </View>
+    )
     return (
-        console.log(window.loggedUserType),
         <View style={globalStyles.fullPage} >
             {/* <Drawer></Drawer>   */}
             <Navbar />
