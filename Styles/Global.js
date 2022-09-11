@@ -13,6 +13,14 @@ export const globalStyles = StyleSheet.create({
          marginBottom: 15,
          backgroundColor: '#E7E7E7',
     },
+    errorInput:{
+        borderWidth: 1,
+        borderColor: 'red',
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 15,
+        backgroundColor: '#E7E7E7',
+    },
 
     header: {
         fontSize: 30,
@@ -101,6 +109,11 @@ export const globalStyles = StyleSheet.create({
 
     errorText: {
         color: 'crimson',
+        fontFamily: 'Raleway-SemiBold',
+        marginBottom: 7,
+    },
+    greenMessage: {
+        color: '#7DCE13',
         fontFamily: 'Raleway-SemiBold',
         marginBottom: 7,
     }

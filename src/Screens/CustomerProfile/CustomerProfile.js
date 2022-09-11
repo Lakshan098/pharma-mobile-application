@@ -6,19 +6,41 @@ import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
 import client from '../../Api/client';
+import * as yup from 'yup';
 
+// const reviewSchema = yup.object({
+//     username: yup.string().required('Please enter your Name'),
+//     contact_number: yup.string().required('Please enter you Mobile Number'),
+//     email: yup.string().required('Please enter Email').email().matches(
+//         /^[a-zA-Z0-9.! #$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*$/,
+//         "Please enter valid email"
+//     ),
+//     new_password: yup
+//         .string()
+//         .required('Please Enter your password')
+//         .matches(
+//             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+//             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+//         ),
+
+// })
 
 
 export default function CustomerProfile({ navigation }) {
 
-
+    const uid = window.loggedUserId;
+    const user_type = window.loggedUserType;
     const [usernameEditVisiblity, setUsernameEditVisible] = useState(false);
     const [telephoneEditVisiblity, setTelephoneEditVisible] = useState(false);
     const [emailEditVisiblity, setEmailEditVisible] = useState(false);
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [passwordConfirmedMessage, setpasswordConfirmedMessage] = useState("");
+    const [newpassword, setCurrentPassword] = useState("");
+
 
     const [data, setData] = useState(null);
     const [isResponsed, setResponse] = useState(false);
-    const uid = window.loggedUserId;
     const [username, setUsername] = useState("");
     const [contact_number, setContactNumber] = useState("");
     const [email, setEmail] = useState("");
@@ -73,11 +95,22 @@ export default function CustomerProfile({ navigation }) {
                         </View>
                         <Formik
                             initialValues={{ username: '' }}
+   
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
+                                client.post('/User/updateUsername', { ...values, uid, user_type }).then((response) => {
+                                    setUsernameEditVisible(!usernameEditVisiblity);
+                                    setData([...response.data.result]);
+                                    setUsername(response.data.result[0].username);
+                                    setContactNumber(response.data.result[0].contact_number);
+                                    setEmail(response.data.result[0].email);
+
+                                });
+
                             }}
                         >
+
                             {(props) => (
 
                                 <Modal visible={usernameEditVisiblity}
@@ -98,6 +131,7 @@ export default function CustomerProfile({ navigation }) {
                                                 onChangeText={props.handleChange('username')}
                                                 value={props.values.username}
                                             />
+                                            <Text style={globalStyles.errorText}>{props.touched.username && props.errors.username}</Text>
                                             <TouchableOpacity
                                                 onPress={props.handleSubmit}
                                                 style={globalStyles.submitButton}>
@@ -129,10 +163,18 @@ export default function CustomerProfile({ navigation }) {
                         </View>
 
                         <Formik
-                            initialValues={{ telephone: '' }}
+                            initialValues={{ contact_number: '' }}
+                            
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
+                                client.post('/User/updateTelephone', { ...values, uid, user_type }).then((response) => {
+                                    setTelephoneEditVisible(!telephoneEditVisiblity);
+                                    setData([...response.data.result]);
+                                    setUsername(response.data.result[0].username);
+                                    setContactNumber(response.data.result[0].contact_number);
+                                    setEmail(response.data.result[0].email);
+                                });
                             }}
                         >
                             {(props) => (
@@ -152,11 +194,12 @@ export default function CustomerProfile({ navigation }) {
                                                 style={globalStyles.input}
                                                 placeholder='Enter new telephone'
                                                 keyboardType='numeric'
-                                                onChangeText={props.handleChange('telephone')}
-                                                value={props.values.telephone}
+                                                onChangeText={props.handleChange('contact_number')}
+                                                value={props.values.contact_number}
                                             />
+                                            <Text style={globalStyles.errorText}>{props.touched.contact_number && props.errors.contact_number}</Text>
                                             <TouchableOpacity
-                                                onPress={() => { props.handleSubmit; setTelephoneEditVisible(!telephoneEditVisiblity) }}
+                                                onPress={props.handleSubmit}
                                                 style={globalStyles.submitButton}>
                                                 <Text style={globalStyles.buttonText}>Confirm</Text>
                                             </TouchableOpacity>
@@ -179,7 +222,7 @@ export default function CustomerProfile({ navigation }) {
                             <View style={styles.input}><Text>{email}</Text></View>
 
                             <TouchableOpacity
-                                onPress={() => { setEmailEditVisible(!emailEditVisiblity) }}
+                                onPress={() => { setEmailEditVisible(!emailEditVisiblity); }}
                                 style={styles.editbutton}>
                                 <Text style={globalStyles.buttonText}><Icon style={styles.mapMarker} name="pencil" size={22} color="#fff" /></Text>
                             </TouchableOpacity>
@@ -187,9 +230,24 @@ export default function CustomerProfile({ navigation }) {
                         </View>
                         <Formik
                             initialValues={{ email: '' }}
+
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
+                                client.post('/User/updateEmail', { ...values, uid, user_type }).then((response) => {
+                                    if (response.data.error) {
+                                        setEmailError("Email already taken...!");
+                                    }
+                                    else {
+                                        setEmailEditVisible(!emailEditVisiblity);
+                                        setEmailError(" ");
+                                        setData([...response.data.result]);
+                                        setUsername(response.data.result[0].username);
+                                        setContactNumber(response.data.result[0].contact_number);
+                                        setEmail(response.data.result[0].email);
+                                    }
+
+                                });
                             }}
                         >
                             {(props) => (
@@ -201,18 +259,26 @@ export default function CustomerProfile({ navigation }) {
 
                                         <View style={{ backgroundColor: '#ffffff', height: '40%', padding: 20, borderRadius: 10, alignSelf: 'center', width: '80%', margin: 50 }}>
                                             <View style={{ justifyContent: 'flex-end', width: '100%', alignItems: 'flex-end', marginBottom: 30 }}>
-                                                <TouchableOpacity onPress={() => { setEmailEditVisible(!emailEditVisiblity) }}>
+                                                <TouchableOpacity onPress={() => {
+                                                    setEmailError("");
+                                                    setEmailEditVisible(!emailEditVisiblity);
+                                                }}>
                                                     <Icon name="close" size={22} color="red" />
                                                 </TouchableOpacity>
                                             </View>
                                             <TextInput
-                                                style={globalStyles.input}
+                                                style={(emailError == "") ? globalStyles.input : globalStyles.errorInput}
                                                 placeholder='Enter new email'
-                                                onChangeText={props.handleChange('email')}
+                                                onChangeText={(e) => {
+                                                    props.handleChange("email")(e);
+                                                    setEmailError("");
+                                                }}
                                                 value={props.values.email}
                                             />
+                                            <Text style={globalStyles.errorText}>{props.touched.email && props.errors.email}</Text>
+                                            <Text style={globalStyles.errorText}>{emailError}</Text>
                                             <TouchableOpacity
-                                                onPress={() => { props.handleSubmit; setEmailEditVisible(!emailEditVisiblity) }}
+                                                onPress={props.handleSubmit}
                                                 style={globalStyles.submitButton}>
                                                 <Text style={globalStyles.buttonText}>Confirm</Text>
                                             </TouchableOpacity>
@@ -238,10 +304,22 @@ export default function CustomerProfile({ navigation }) {
                     />
                     <View style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', }}><Text style={{ fontSize: 16, fontWeight: '700' }}>Change password</Text></View>
                     <Formik
-                        initialValues={{ currenpassword: '', newpassword: '', confirmpassword: '' }}
+                        initialValues={{ current_password: '', new_password: '' }}
+
                         onSubmit={(values, actions) => {
                             actions.resetForm();
                             console.log(values);
+                            client.post('/User/updatePassword', { ...values, uid }).then((response) => {
+                                if (response.data.error) {
+                                    setPasswordError("Current password is wrong...!");
+                                    setpasswordConfirmedMessage("");
+                                }
+                                else {
+                                    setPasswordError("");
+                                    setpasswordConfirmedMessage("");
+                                }
+
+                            });
                         }}
                     >
                         {(props) => (
@@ -250,10 +328,14 @@ export default function CustomerProfile({ navigation }) {
                                 <Text>Current password</Text>
 
                                 <TextInput
+                                    secureTextEntry
                                     style={globalStyles.input}
                                     placeholder='Current password'
-                                    onChangeText={props.handleChange('email')}
-                                    value={props.values.currenpassword}
+                                    onChangeText={(e) => {
+                                        props.handleChange("current_password")(e);
+                                        setPasswordError("");
+                                    }}
+                                    value={props.values.current_password}
                                 />
 
 
@@ -263,21 +345,34 @@ export default function CustomerProfile({ navigation }) {
                                     secureTextEntry
                                     style={globalStyles.input}
                                     placeholder='New Password'
-                                    onChangeText={props.handleChange('password')}
-                                    value={props.values.newpassword}
+                                    onChangeText={(e) => {
+                                        props.handleChange("new_password")(e);
+                                        setCurrentPassword(e);
+                                    }}
+                                    value={props.values.new_password}
                                 />
-
+                                <Text style={globalStyles.errorText}>{props.touched.new_password && props.errors.new_password}</Text>
                                 <Text>Confirm Password</Text>
 
                                 <TextInput
                                     secureTextEntry
                                     style={globalStyles.input}
                                     placeholder='Confirm Password'
-                                    onChangeText={props.handleChange('password')}
-                                    value={props.values.confirmpassword}
+                                    onChangeText={(e) => {
+                                        props.handleChange("confirm_password")(e);
+                                        if (newpassword == e) {
+                                            setPasswordError("");
+                                            setpasswordConfirmedMessage("Confirm password matched...!");
+                                        }
+                                        else {
+                                            setPasswordError("Still password not matched with confirm password...!");
+                                            setpasswordConfirmedMessage("");
+                                        }
+                                    }}
+                                    value={props.values.confirm_password}
                                 />
-
-
+                                <Text style={globalStyles.greenMessage}>{passwordConfirmedMessage}</Text>
+                                <Text style={globalStyles.errorText}>{passwordError}</Text>
                                 <TouchableOpacity
                                     onPress={props.handleSubmit}
                                     style={globalStyles.submitButton}>
