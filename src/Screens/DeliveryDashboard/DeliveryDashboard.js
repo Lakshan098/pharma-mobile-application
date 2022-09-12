@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
+import { View, Image, Animated, StyleSheet, ImageBackground,ActivityIndicator, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
 import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
@@ -6,65 +6,103 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/DeliveryFooter';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import SideNavbar from '../../Components/sideNavbar/sideNavbar';
+import client from '../../Api/client';
+import { Actions } from 'react-native-router-flux';
+
+
 
 
 
 export default function PharmacySearchPage({ navigation }) {
 
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const pharmacy = [];
+
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState(pharmacy);
+
     const [visibility, showMap] = useState(false);
     const pressHandler = () => {
         showMap(!visibility);
+        Actions.refresh({ key: 'dDashboard' });
     }
-    const pharmacy = [
-        {
-            key: 1,
-            name: 'Lanka Pharmacy',
-            address: 'Colombo 09',
-            open_time: '9.00am - 8.00pm',
-            profile_pic: require('../../Assets/Images/pharmacy1.png'),
-            latitude: 5.947822,
-            longitude: 80.5482919,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-        },
-        {
-            key: 2,
-            name: 'Suwasana Pharmacy',
-            address: 'Colombo 09',
-            open_time: '9.00am - 8.00pm',
-            profile_pic: require('../../Assets/Images/pharmacy1.png'),
-            latitude: 6.9010964999999995,
-            longitude: 79.86043452816955,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-        },
-        {
-            key: 3,
-            name: 'Aruna Pharmacy',
-            address: 'Colombo 09',
-            open_time: '9.00am - 8.00pm',
-            profile_pic: require('../../Assets/Images/pharmacy1.png'),
-            latitude: 6.9173013,
-            longitude: 79.864813,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-        },
-    ];
 
+    // const pharmacy = [
+    //     {
+    //         key: 1,
+    //         name: 'Lanka Pharmacy',
+    //         address: 'Colombo 09',
+    //         open_time: '9.00am - 8.00pm',
+    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
+    //         latitude: 5.947822,
+    //         longitude: 80.5482919,
+    //         latitudeDelta: 0.015,
+    //         longitudeDelta: 0.0121,
+    //     },
+    //     {
+    //         key: 2,
+    //         name: 'Suwasana Pharmacy',
+    //         address: 'Colombo 09',
+    //         open_time: '9.00am - 8.00pm',
+    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
+    //         latitude: 6.9010964999999995,
+    //         longitude: 79.86043452816955,
+    //         latitudeDelta: 0.015,
+    //         longitudeDelta: 0.0121,
+    //     },
+    //     {
+    //         key: 3,
+    //         name: 'Aruna Pharmacy',
+    //         address: 'Colombo 09',
+    //         open_time: '9.00am - 8.00pm',
+    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
+    //         latitude: 6.9173013,
+    //         longitude: 79.864813,
+    //         latitudeDelta: 0.015,
+    //         longitudeDelta: 0.0121,
+    //     },
+    // ];
+    useEffect( () => {
+        console.log("Loading",loading);
+        client.post('/User/GetOrderPlacedPharmacies', {}).then((response)=> 
+        {
+            setData([...response.data])
+            response.data.map((object) => {
+                pharmacy.push(
+                    {
+                        key: object.uid,
+                        name: object.username,
+                        open_time: '9.00am - 8.00pm',
+                        profile_pic: require('../../Assets/Images/pharmacy1.png'),
+                        address: "Colombo 07",
+                        longitude: 5.947822,
+                        latitude: 5.947822,
+                        latitudeDelta: 0.015,
+                        longitudeDelta: 0.0121,
+                    }
+                )                    
+            })
+            console.log("Pharamcies", pharmacy);
+            setFilteredDataSource(pharmacy);
+            setMasterDataSource(pharmacy);
+        });
+    },[]);
 
     const pharmacyitems = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('OrdersFromPharmacy')}>
-            <ImageBackground
-                style={styles.coverImage}
-                imageStyle={{ borderRadius: 10 }}
-                source={item.profile_pic}
-            >
-                <TouchableHighlight style={styles.darkness}>
-                    <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
-                </TouchableHighlight>
-            </ImageBackground>
-        </TouchableOpacity>
+        <ImageBackground
+            style={styles.coverImage}
+            imageStyle={{ borderRadius: 10 }}
+            source={item.profile_pic}
+        >
+            <TouchableHighlight style={styles.darkness} onPress={() => navigation.navigate('Portal')} >
+                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
+            </TouchableHighlight>
+
+        </ImageBackground>
     );
 
     const mapitems = ({ item }) => (
@@ -86,15 +124,6 @@ export default function PharmacySearchPage({ navigation }) {
 
     );
 
-
-    const [search, setSearch] = useState('');
-    const [filteredDataSource, setFilteredDataSource] = useState([]);
-    const [masterDataSource, setMasterDataSource] = useState(pharmacy);
-
-    useEffect(() => {
-        setFilteredDataSource(pharmacy);
-        setMasterDataSource(pharmacy);
-    }, []);
 
     const searchFilterFunction = (text) => {
         // Check if searched text is not blank
@@ -119,10 +148,15 @@ export default function PharmacySearchPage({ navigation }) {
         }
     };
 
+    if (data == null) return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+            <ActivityIndicator size="large" />
+        </View>
+    )
     return (
-
         <View style={globalStyles.fullPage} >
-            <Navbar></Navbar>
+            {/* <Drawer></Drawer>   */}
+            <Navbar />
             <ScrollView style={styles.maincontainer}>
                 <Image
                     style={{
@@ -141,7 +175,9 @@ export default function PharmacySearchPage({ navigation }) {
                             onClear={(text) => searchFilterFunction('')}
                         />
                     </View>
-
+                    <TouchableOpacity style={styles.locationIconContainer} >
+                        <Icon style={styles.mapMarker} onPress={pressHandler} name="map-marker" size={22} color="#fff" />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.mapcontainer}>
                     {visibility ?
@@ -232,7 +268,7 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         margin: 20,
-        paddingVertical: 25,
+        paddingVertical: 10,
         height: 100,
         backgroundColor: '#0F587D',
         borderRadius: 10,
@@ -258,7 +294,6 @@ const styles = StyleSheet.create({
 
     pharmacyContainer: {
         flex: 1,
-        marginVertical: 10,
         padding: 20,
     },
 
