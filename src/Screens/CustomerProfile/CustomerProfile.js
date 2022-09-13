@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
 import client from '../../Api/client';
 import * as yup from 'yup';
+import * as ImagePicker from 'expo-image-picker';
 
 // const reviewSchema = yup.object({
 //     username: yup.string().required('Please enter your Name'),
@@ -45,6 +46,24 @@ export default function CustomerProfile({ navigation }) {
     const [contact_number, setContactNumber] = useState("");
     const [email, setEmail] = useState("");
 
+    const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
     useEffect(() => {
 
         client.post('/Customer/GetDetails', { uid }).then((response) => {
@@ -68,15 +87,15 @@ export default function CustomerProfile({ navigation }) {
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>
                         <View style={styles.profilepiccontainer}>
-                            <Image source={require('../../Assets/Images/login.png')} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                        <Image source={{ uri: image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
                         </View>
                         <TouchableOpacity
-                            onPress={() => { setUsernameEditVisible(!usernameEditVisiblity) }}
+                            onPress={pickImage}
                             style={{ padding: 10, width: '15%', justifyContent: 'center', alignItems: 'center', borderRadius: 50, backgroundColor: '#32BBC3', right: 0, position: 'relative' }}>
                             <Text style={globalStyles.buttonText}><Icon style={styles.mapMarker} name="pencil" size={22} color="#fff" /></Text>
                         </TouchableOpacity>
+                        
                     </View>
-
 
                     <View style={styles.detailcontainer}>
                         <View style={{ paddingHorizontal: 25 }}>
