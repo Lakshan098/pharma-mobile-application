@@ -8,21 +8,6 @@ import Footer from '../../Components/Footer/CustomerFooter';
 import client from '../../Api/client';
 import * as yup from 'yup';
 
-const reviewSchema = yup.object({
-    username: yup.string().required('Please enter your Name'),
-    contact_number: yup.string().required('Please enter you Mobile Number').min(10, 'Enter at least 10 digit long number'),
-    email: yup.string().required('Please enter Email').email('Please enter valid email'),
-    new_password: yup
-        .string()
-        .required('Please Enter your password')
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-        ),
-
-})
-
-
 export default function CustomerProfile({ navigation }) {
 
     const uid = window.loggedUserId;
@@ -92,7 +77,11 @@ export default function CustomerProfile({ navigation }) {
                         </View>
                         <Formik
                             initialValues={{ username: '' }}
-                            validationSchema={reviewSchema}
+                            validationSchema={
+                                yup.object().shape({
+                                    username: yup.string().required('Please enter your Name'),
+                                })
+                            }
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
@@ -161,7 +150,11 @@ export default function CustomerProfile({ navigation }) {
 
                         <Formik
                             initialValues={{ contact_number: '' }}
-                            validationSchema={reviewSchema}
+                            validationSchema={
+                                yup.object().shape({
+                                    contact_number: yup.string().required('Please enter you Mobile Number').min(10, 'Enter at least 10 digit long number'),
+                                })
+                            }
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
@@ -227,7 +220,11 @@ export default function CustomerProfile({ navigation }) {
                         </View>
                         <Formik
                             initialValues={{ email: '' }}
-                            validationSchema={reviewSchema}
+                            validationSchema={
+                                yup.object().shape({
+                                    email: yup.string().required('Please enter Email').email('Please enter valid email'),
+                                })
+                            }
                             onSubmit={(values, actions) => {
                                 actions.resetForm();
                                 console.log(values);
@@ -302,7 +299,17 @@ export default function CustomerProfile({ navigation }) {
                     <View style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', }}><Text style={{ fontSize: 16, fontWeight: '700' }}>Change password</Text></View>
                     <Formik
                         initialValues={{ current_password: '', new_password: '' }}
-                        validationSchema={reviewSchema}
+                        validationSchema={
+                            yup.object().shape({
+                                new_password: yup
+                                    .string()
+                                    .required('Please Enter your password')
+                                    .matches(
+                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                                        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+                                    ),
+                            })
+                        }
                         onSubmit={(values, actions) => {
                             actions.resetForm();
                             console.log(values);
