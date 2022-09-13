@@ -93,12 +93,20 @@ export default function PharmacySearchPage({ navigation }) {
     },[]);
 
     const pharmacyitems = ({ item }) => (
+
         <ImageBackground
             style={styles.coverImage}
             imageStyle={{ borderRadius: 10 }}
             source={item.profile_pic}
         >
-            <TouchableHighlight style={styles.darkness} onPress={() => navigation.navigate('Portal')} >
+            <TouchableHighlight style={styles.darkness} id={item.key} onPress={() => {
+                var key = item.key
+                var name = item.name
+                var address = item.address
+                var profile = item.profile_pic
+                var time = item.open_time
+        
+                navigation.navigate('Portal',{key,name,address,profile,time})}} >
                 <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
             </TouchableHighlight>
 

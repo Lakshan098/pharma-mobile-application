@@ -3,6 +3,7 @@ import React, { useContext, useState} from 'react';
 import AppLoading from 'expo-app-loading';
 import Routes from './Routes';
 import { AuthProvider } from './src/Context/AuthContext';
+import Portal from './src/Screens/Portal/Portal';
 
 
 const getFonts = () => Font.loadAsync({
