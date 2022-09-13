@@ -2,69 +2,74 @@ import { View, Image, StyleSheet, Text, ScrollView } from 'react-native';
 import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import React, { useState, useEffect, useCallback } from 'react';
+import client from '../../Api/client';
 
 export default function DeliveryDashboard({ navigation }) {
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [dataList, setDataList] = useState([]);
+
+    const orders = [];
+
+    useEffect(() => {
+        console.log("Loading", loading);
+        client.post('/DeliveryAgent/GetConfirmedOrders', {
+            uid: window.loggedUserId
+        }).then((response) => {
+            setData(response.data)
+            response.data.map((object) => {
+                orders.push(
+                    {
+                        key: object.order_id,
+                        address: object.address,
+                        customer: object.customer,
+                        pharmacy: object.pharmacy
+                    }
+                )
+            })
+            console.log(orders)
+            setDataList(orders)
+        });
+    }, []);
+
+    const orderList = ({ item }) => (
+        <View>
+            <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                <View style={styles.orders}>
+                    <Text style={styles.orderId}>Order ID: {item.key}</Text>
+                    <Text style={styles.orderContent}>
+                        <Text style={styles.orderContentTitle}>From:</Text> {item.pharmacy}{'\n'}
+                        <Text style={styles.orderContentTitle}>To:</Text> {item.customer}{'\n'}
+                        <Text style={styles.orderContentTitle}>Address:</Text> {item.address}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    );
+
+
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
-            <ScrollView style={styles.maincontainer}>  
-            <Image
-                style={{
-                    height: 250,
-                    width: null,
-                }}
-                source={require('../../Assets/Images/confirmed_orders.png')}
-            />
-                <View style={globalStyles.boxContainer}>
-                    <Text style={styles.header}>Confirmed Ongoing Orders</Text>
-                    <View style={styles.ordersContainer}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
-                            <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 5</Text>
-                                <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Lanka Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Lakshan Mihiranga{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No,75, Tangalle Rd, Beliatta
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
-                            <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 8</Text>
-                                <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Suwasana Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Manuka Dewanarayana{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No.175, Tangalle Rd, Matara
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
-                            <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 14</Text>
-                                <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Chandana Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Navod Wimalaweera{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No.33, Beliatta Rd, Dickwella
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => navigation.navigate('Order')}>
-                            <View style={styles.orders}>
-                                <Text style={styles.orderId}>Order ID: 18</Text>
-                                <Text style={styles.orderContent}>
-                                    <Text style={styles.orderContentTitle}>From:</Text> Southern Pharmacy{'\n'}
-                                    <Text style={styles.orderContentTitle}>To:</Text> Sahan Dilshan{'\n'}
-                                    <Text style={styles.orderContentTitle}>Address:</Text> No.20, Tangalle Rd, Kudawella
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                <ScrollView style={styles.maincontainer}>
+                    <Image
+                        style={{
+                            height: 250,
+                            width: null,
+                        }}
+                        source={require('../../Assets/Images/confirmed_orders.png')}
+                    />
+                    <View style={globalStyles.boxContainer}>
+                        <Text style={styles.header}>Confirmed Ongoing Orders</Text>
+                            <FlatList
+                                data={dataList}
+                                renderItem={orderList}
+                            />
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
             <Footer />
         </View>
     )
@@ -102,7 +107,7 @@ const styles = StyleSheet.create({
     orderContentTitle: {
         fontFamily: 'Raleway-ExtraBold',
     },
-    maincontainer:{
+    maincontainer: {
         marginBottom: 40,
     },
 
