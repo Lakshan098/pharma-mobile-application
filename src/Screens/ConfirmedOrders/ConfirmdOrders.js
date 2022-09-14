@@ -26,7 +26,8 @@ export default function DeliveryDashboard({ navigation }) {
                         key: object.order_id,
                         address: object.address,
                         customer: object.customer,
-                        pharmacy: object.pharmacy
+                        pharmacy: object.pharmacy,
+                        telephone: object.contact_number
                     }
                 )
             })
@@ -37,7 +38,15 @@ export default function DeliveryDashboard({ navigation }) {
 
     const orderList = ({ item }) => (
         <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+            <TouchableOpacity onPress={() => {
+                var key = item.key
+                var address = item.address
+                var customer = item.customer
+                var pharmacy = item.pharmacy
+                var telephone = item.telephone
+        
+                navigation.navigate('Order',{key,address,customer,pharmacy, telephone})}}>
+
                 <View style={styles.orders}>
                     <Text style={styles.orderId}>Order ID: {item.key}</Text>
                     <Text style={styles.orderContent}>

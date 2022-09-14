@@ -24,9 +24,13 @@ export default function DeliveryDashboard({ navigation }) {
                 orders.push(
                     {
                         key: object.order_id,
-                        address: object.address,
+                        address: object.cAddress,
+                        pAddress: object.pAddress,
                         customer: object.customer,
-                        pharmacy: object.pharmacy
+                        pharmacy: object.pharmacy,
+                        telephone: object.cTelephone,
+                        pTelephone: object.pTelephone,
+                        fee: object.delivery_fee
                     }
                 )
             })
@@ -37,7 +41,16 @@ export default function DeliveryDashboard({ navigation }) {
 
     const orderList = ({ item }) => (
         <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+            <TouchableOpacity onPress={() => {
+                var cAddress = item.address
+                var pAddress = item.pAddress
+                var customer = item.customer
+                var pharmacy = item.pharmacy
+                var cTelephone = item.telephone
+                var pTelephone = item.pTelephone
+                var fee = item.fee
+        
+                navigation.navigate('Order',{cAddress,customer,pharmacy, cTelephone, pAddress, pTelephone, fee})}}>
                 <View style={styles.orders}>
                     <Text style={styles.orderId}>Order ID: {item.key}</Text>
                     <Text style={styles.orderContent}>
