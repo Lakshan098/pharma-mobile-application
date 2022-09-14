@@ -3,7 +3,7 @@ import Navbar from '../../Components/Navbar/Navbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
 
-export default function DeliveryDashboard() {
+export default function DeliveryDashboard({navigation}) {
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -22,9 +22,9 @@ export default function DeliveryDashboard() {
                 <Text style={styles.header}>Delivery Details</Text>
                 <Text style={styles.content}>
                     <Text style={styles.orderContentTitle}>From:</Text>{'\n'}
-                    Name: Lanka Pharmacy{'\n'}
-                    Address: Colombo7{'\n'}
-                    Telephone: 011-1234567
+                    Name: {navigation.getParam('pharmacy')}{'\n'}
+                    Address: {navigation.getParam('pAddress')}{'\n'}
+                    Telephone: {navigation.getParam('pTelephone')}
                 </Text>
 
                 <View
@@ -36,9 +36,9 @@ export default function DeliveryDashboard() {
 
                 <Text style={styles.content}>
                     <Text style={styles.orderContentTitle}>To:</Text>{'\n'}
-                    Name: K.G.L. Mihiranga{'\n'}
-                    Address: No.75, Tangalle Rd, Beliatta{'\n'}
-                    Telephone: 071-1234567
+                    Name: {navigation.getParam('customer')}{'\n'}
+                    Address: {navigation.getParam('cAddress')}{'\n'}
+                    Telephone: {navigation.getParam('cTelephone')}
                 </Text>
 
                 <View
@@ -49,7 +49,7 @@ export default function DeliveryDashboard() {
                 />
 
                 <Text style={styles.content}>
-                    <Text style={styles.orderContentTitle}>Income: :</Text>Rs.400
+                    <Text style={styles.orderContentTitle}>Income: :</Text>{navigation.getParam('fee')}
                 </Text>
 
             </View>
