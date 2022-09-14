@@ -4,7 +4,8 @@ import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Footer from '../../Components/Footer/CustomerFooter';
+import CustomerFooter from '../../Components/Footer/CustomerFooter';
+import DeliveryFooter from '../../Components/Footer/DeliveryFooter';
 import client from '../../Api/client';
 import * as yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
@@ -21,7 +22,6 @@ export default function CustomerProfile({ navigation }) {
     const [passwordConfirmedMessage, setpasswordConfirmedMessage] = useState("");
     const [newpassword, setCurrentPassword] = useState("");
 
-
     const [data, setData] = useState(null);
     const [isResponsed, setResponse] = useState(false);
     const [username, setUsername] = useState("");
@@ -30,31 +30,41 @@ export default function CustomerProfile({ navigation }) {
 
     const [image, setImage] = useState(null);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
 
-    console.log(result);
+        console.log(result);
 
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
 
     useEffect(() => {
+        if (user_type == "customer") {
+            client.post('/Customer/GetDetails', { uid }).then((response) => {
+                setData([...response.data]);
+                setUsername(response.data[0].username);
+                setContactNumber(response.data[0].contact_number);
+                setEmail(response.data[0].email);
 
-        client.post('/Customer/GetDetails', { uid }).then((response) => {
-            setData([...response.data]);
-            setUsername(response.data[0].username);
-            setContactNumber(response.data[0].contact_number);
-            setEmail(response.data[0].email);
+            })
+        } else if (user_type == "delivery_agent") {
+            client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
+                setData([...response.data]);
+                setUsername(response.data[0].username);
+                setContactNumber(response.data[0].contact_number);
+                setEmail(response.data[0].email);
 
-        })
+            })
+        }
+
     }, []);
 
     if (data == null) return (
@@ -69,14 +79,14 @@ export default function CustomerProfile({ navigation }) {
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>
                         <View style={styles.profilepiccontainer}>
-                        <Image source={{ uri: image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                            <Image source={{ uri: image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
                         </View>
                         <TouchableOpacity
                             onPress={pickImage}
                             style={{ padding: 10, width: '15%', justifyContent: 'center', alignItems: 'center', borderRadius: 50, backgroundColor: '#32BBC3', right: 0, position: 'relative' }}>
                             <Text style={globalStyles.buttonText}><Icon style={styles.mapMarker} name="pencil" size={22} color="#fff" /></Text>
                         </TouchableOpacity>
-                        
+
                     </View>
 
                     <View style={styles.detailcontainer}>
@@ -106,10 +116,23 @@ export default function CustomerProfile({ navigation }) {
                                 console.log(values);
                                 client.post('/User/updateUsername', { ...values, uid, user_type }).then((response) => {
                                     setUsernameEditVisible(!usernameEditVisiblity);
-                                    setData([...response.data.result]);
-                                    setUsername(response.data.result[0].username);
-                                    setContactNumber(response.data.result[0].contact_number);
-                                    setEmail(response.data.result[0].email);
+                                    if (user_type == "customer") {
+                                        client.post('/Customer/GetDetails', { uid }).then((response) => {
+                                            setData([...response.data]);
+                                            setUsername(response.data[0].username);
+                                            setContactNumber(response.data[0].contact_number);
+                                            setEmail(response.data[0].email);
+                            
+                                        })
+                                    } else if (user_type == "delivery_agent") {
+                                        client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
+                                            setData([...response.data]);
+                                            setUsername(response.data[0].username);
+                                            setContactNumber(response.data[0].contact_number);
+                                            setEmail(response.data[0].email);
+                            
+                                        })
+                                    }
 
                                 });
 
@@ -179,10 +202,23 @@ export default function CustomerProfile({ navigation }) {
                                 console.log(values);
                                 client.post('/User/updateTelephone', { ...values, uid, user_type }).then((response) => {
                                     setTelephoneEditVisible(!telephoneEditVisiblity);
-                                    setData([...response.data.result]);
-                                    setUsername(response.data.result[0].username);
-                                    setContactNumber(response.data.result[0].contact_number);
-                                    setEmail(response.data.result[0].email);
+                                    if (user_type == "customer") {
+                                        client.post('/Customer/GetDetails', { uid }).then((response) => {
+                                            setData([...response.data]);
+                                            setUsername(response.data[0].username);
+                                            setContactNumber(response.data[0].contact_number);
+                                            setEmail(response.data[0].email);
+                            
+                                        })
+                                    } else if (user_type == "delivery_agent") {
+                                        client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
+                                            setData([...response.data]);
+                                            setUsername(response.data[0].username);
+                                            setContactNumber(response.data[0].contact_number);
+                                            setEmail(response.data[0].email);
+                            
+                                        })
+                                    }
                                 });
                             }}
                         >
@@ -254,10 +290,23 @@ export default function CustomerProfile({ navigation }) {
                                     else {
                                         setEmailEditVisible(!emailEditVisiblity);
                                         setEmailError(" ");
-                                        setData([...response.data.result]);
-                                        setUsername(response.data.result[0].username);
-                                        setContactNumber(response.data.result[0].contact_number);
-                                        setEmail(response.data.result[0].email);
+                                        if (user_type == "customer") {
+                                            client.post('/Customer/GetDetails', { uid }).then((response) => {
+                                                setData([...response.data]);
+                                                setUsername(response.data[0].username);
+                                                setContactNumber(response.data[0].contact_number);
+                                                setEmail(response.data[0].email);
+                                
+                                            })
+                                        } else if (user_type == "delivery_agent") {
+                                            client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
+                                                setData([...response.data]);
+                                                setUsername(response.data[0].username);
+                                                setContactNumber(response.data[0].contact_number);
+                                                setEmail(response.data[0].email);
+                                
+                                            })
+                                        }
                                     }
 
                                 });
@@ -409,7 +458,19 @@ export default function CustomerProfile({ navigation }) {
 
 
             </ScrollView>
-            <Footer></Footer>
+           {
+             (user_type == "customer") ?
+                    <CustomerFooter></CustomerFooter>
+               : 
+                   null    
+            }
+            {
+                (user_type == "delivery_agent") ?
+                <DeliveryFooter/>
+                :
+                null
+            }
+
         </View>
 
 
