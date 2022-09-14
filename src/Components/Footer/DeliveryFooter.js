@@ -27,7 +27,7 @@ export default function Footer({navigation}) {
 
     const Profile = () => {
         return(
-            Actions.dProfile()
+            Actions.customerProfile()
             );
     };
 

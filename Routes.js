@@ -27,7 +27,6 @@ export default function Routes() {
             <Scene key="dDashboard" component={DDashboard} hideNavBar={true} />
             <Scene key="dConfirmedOrders" component={DConfirmedOrders} hideNavBar={true} />
             <Scene key="dCompletedOrders" component={DCompletedOrders} hideNavBar={true} />
-            <Scene key="dProfile" component={DProfile} hideNavBar={true} />
          </Scene>
       </Router>
 
