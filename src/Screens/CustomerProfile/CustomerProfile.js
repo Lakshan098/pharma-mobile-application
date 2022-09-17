@@ -44,25 +44,24 @@ export default function CustomerProfile({ navigation }) {
         if (!result.cancelled) {
             setImage(result.uri);
         }
-        let localUri = result.uri;
-        let filename = localUri.split('/').pop();
+        const localUri = result.uri;
+        const filename = localUri.split('/').pop();
         console.log(filename);
 
-        let match = /\.(\w+)$/.exec(filename);
-        let type = match ? `image/${match[1]}` : `image`;
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : `image`;
 
         // Upload the image using the fetch and FormData APIs
-        let formData = new FormData();
+        const formData = new FormData();
         // Assume "photo" is the name of the form field the server expects
-        formData.append('photo', { uri: localUri, name: filename, type });
+        formData.append('profile', { uri: image, name: filename , type: 'image/jpg' ,user_type: user_type});
 
-        return await fetch(client.post('/UploadFile/UploadProfilePhoto', {
-            method: 'POST',
-            body: formData,
+        client.post('/UploadFile/UploadProfilePhoto', formData, {
             headers: {
-                'content-type': 'multipart/form-data',
-            },
-        }));
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+            }
+        });
 
     };
 
@@ -96,7 +95,7 @@ export default function CustomerProfile({ navigation }) {
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>
                         <View style={styles.profilepiccontainer}>
-                            <Image source={{ uri: image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                            <Image source={{uri: image}} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
                         </View>
                         <TouchableOpacity
                             onPress={pickImage}
