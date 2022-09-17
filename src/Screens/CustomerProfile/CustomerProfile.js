@@ -35,7 +35,7 @@ export default function CustomerProfile({ navigation }) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [16, 21],
             quality: 1,
         });
 
@@ -44,6 +44,26 @@ export default function CustomerProfile({ navigation }) {
         if (!result.cancelled) {
             setImage(result.uri);
         }
+        let localUri = result.uri;
+        let filename = localUri.split('/').pop();
+        console.log(filename);
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        // Upload the image using the fetch and FormData APIs
+        let formData = new FormData();
+        // Assume "photo" is the name of the form field the server expects
+        formData.append('photo', { uri: localUri, name: filename, type });
+
+        return await fetch(client.post('/UploadFile/UploadProfilePhoto', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        }));
+
     };
 
     useEffect(() => {
@@ -53,7 +73,6 @@ export default function CustomerProfile({ navigation }) {
                 setUsername(response.data[0].username);
                 setContactNumber(response.data[0].contact_number);
                 setEmail(response.data[0].email);
-
             })
         } else if (user_type == "delivery_agent") {
             client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
@@ -61,10 +80,8 @@ export default function CustomerProfile({ navigation }) {
                 setUsername(response.data[0].username);
                 setContactNumber(response.data[0].contact_number);
                 setEmail(response.data[0].email);
-
             })
         }
-
     }, []);
 
     if (data == null) return (
@@ -122,7 +139,7 @@ export default function CustomerProfile({ navigation }) {
                                             setUsername(response.data[0].username);
                                             setContactNumber(response.data[0].contact_number);
                                             setEmail(response.data[0].email);
-                            
+
                                         })
                                     } else if (user_type == "delivery_agent") {
                                         client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
@@ -130,7 +147,7 @@ export default function CustomerProfile({ navigation }) {
                                             setUsername(response.data[0].username);
                                             setContactNumber(response.data[0].contact_number);
                                             setEmail(response.data[0].email);
-                            
+
                                         })
                                     }
 
@@ -138,9 +155,7 @@ export default function CustomerProfile({ navigation }) {
 
                             }}
                         >
-
                             {(props) => (
-
                                 <Modal visible={usernameEditVisiblity}
                                     transparent={true}
 
@@ -208,7 +223,7 @@ export default function CustomerProfile({ navigation }) {
                                             setUsername(response.data[0].username);
                                             setContactNumber(response.data[0].contact_number);
                                             setEmail(response.data[0].email);
-                            
+
                                         })
                                     } else if (user_type == "delivery_agent") {
                                         client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
@@ -216,7 +231,7 @@ export default function CustomerProfile({ navigation }) {
                                             setUsername(response.data[0].username);
                                             setContactNumber(response.data[0].contact_number);
                                             setEmail(response.data[0].email);
-                            
+
                                         })
                                     }
                                 });
@@ -296,7 +311,7 @@ export default function CustomerProfile({ navigation }) {
                                                 setUsername(response.data[0].username);
                                                 setContactNumber(response.data[0].contact_number);
                                                 setEmail(response.data[0].email);
-                                
+
                                             })
                                         } else if (user_type == "delivery_agent") {
                                             client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
@@ -304,7 +319,7 @@ export default function CustomerProfile({ navigation }) {
                                                 setUsername(response.data[0].username);
                                                 setContactNumber(response.data[0].contact_number);
                                                 setEmail(response.data[0].email);
-                                
+
                                             })
                                         }
                                     }
@@ -458,17 +473,17 @@ export default function CustomerProfile({ navigation }) {
 
 
             </ScrollView>
-           {
-             (user_type == "customer") ?
+            {
+                (user_type == "customer") ?
                     <CustomerFooter></CustomerFooter>
-               : 
-                   null    
+                    :
+                    null
             }
             {
                 (user_type == "delivery_agent") ?
-                <DeliveryFooter/>
-                :
-                null
+                    <DeliveryFooter />
+                    :
+                    null
             }
 
         </View>

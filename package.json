@@ -37,6 +37,8 @@
     "react-native-drawer": "^2.5.1",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-dynamic-search-bar": "^2.0.2",
+    "react-native-fs": "^2.20.0",
+    "react-native-image-picker": "^4.10.0",
     "react-native-map": "^0.0.1",
     "react-native-maps": "0.30.2",
     "react-native-paper": "^4.12.4",
