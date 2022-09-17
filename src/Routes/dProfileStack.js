@@ -1,10 +1,10 @@
 import { createStackNavigator } from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
-import Profile from '../Screens/DeliveryProfile/DeliveryProfile';
 import RegisterPharmacy from '../Screens/DeliveryRegisteredPharmacies/DeliveryRegisteredPharmacies';
 import UnregisterPharmacy from '../Screens/DeliveryUnRegisterPharmacies/DeliveryUnRegisterPharmacies';
 import RegisterForPharmacies from '../Screens/RegisterForPharmacies/RegisterForPharmacies';
 import PharmacyDetails from '../Screens/PharmacyDetails/PharmacyDetails';
+import Profile from "../Screens/CustomerProfile/CustomerProfile";
 const screens = {
 
     Profile: {
