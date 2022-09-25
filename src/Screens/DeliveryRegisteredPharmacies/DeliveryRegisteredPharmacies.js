@@ -1,11 +1,62 @@
-import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, TouchableOpacity } from 'react-native';
-import Navbar from '../../Components/Navbar/Navbar';
+import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import Navbar from '../../Components/Navbar/DeliveryNavbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/DeliveryFooter';
+import React, { useState, useEffect, useCallback } from 'react';
+import client from '../../Api/client';
 
-export default function DeliveryDashboard({ navigation }) {
+export default function DeliveryRegisteredPharmacies({ navigation }) {
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [dataList, setDataList] = useState([]);
+    const pharmacy = [];
+
+    useEffect(() => {
+        console.log("Loading", loading);
+        client.post('/DeliveryAgent/GetRegisteredPharmacies', {
+            uid: window.loggedUserId
+        }).then((response) => {
+            setData([...response.data])
+            response.data.map((object) => {
+                pharmacy.push(
+                    {
+                        key: object.pharmacy_id,
+                        name: object.username,
+                        open_time: '9.00am - 8.00pm',
+                        profile_pic: require('../../Assets/Images/pharmacy1.png'),
+                        address: object.address,
+                        telephone: object.contact_number,
+                    }
+                )
+            })
+            console.log(pharmacy)
+            setDataList(pharmacy)
+        });
+    }, []);
+
+    const pharmacyitems = ({ item }) => (
+        <ImageBackground
+            style={styles.coverImage}
+            imageStyle={{ borderRadius: 10 }}
+            source={item.profile_pic}
+        >
+            <TouchableOpacity style={styles.darkness} onPress={() =>{ 
+                var name = item.name
+                var address = item.address
+                var key = item.key
+                var telephone = item.telephone
+                var openTIme = item.open_time
+
+                navigation.navigate('PharmacyDetails', { name, address, key, telephone, openTIme })}} >
+                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
+            </TouchableOpacity>
+
+        </ImageBackground>
+    );
+
     return (
         <View style={globalStyles.fullPage}>
             <Navbar />
@@ -17,43 +68,10 @@ export default function DeliveryDashboard({ navigation }) {
             <View style={styles.pharmacyContainer}>
                 <ScrollView>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('UnregisterPharmacy')}>
-                        <ImageBackground
-                            style={styles.coverImage}
-                            imageStyle={{ borderRadius: 10 }}
-                            source={require('../../Assets/Images/pharmacy1.png')}
-                        >
-                            <View style={styles.darkness} />
-                            <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Lanka pharmacy</Text>{'\n'}Colombo 07{'\n'}open 9.00am-8.00pm</Text>
-                        </ImageBackground>
-                    </TouchableOpacity>
-
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Suwasana pharmacy</Text>{'\n'}Colombo 10{'\n'}open 8.00am-8.00pm</Text>
-                    </ImageBackground>
-
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Southern pharmacy</Text>{'\n'}Galle{'\n'}open 9.00am-10.00pm</Text>
-                    </ImageBackground>
-
-                    <ImageBackground
-                        style={styles.coverImage}
-                        imageStyle={{ borderRadius: 10 }}
-                        source={require('../../Assets/Images/pharmacy1.png')}
-                    >
-                        <View style={styles.darkness} />
-                        <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>Chandana pharmacy</Text>{'\n'}Tangalle{'\n'}open 8.00am-10.00pm</Text>
-                    </ImageBackground>
+                <FlatList
+                        data={dataList}
+                        renderItem={pharmacyitems}
+                    />
                 </ScrollView>
             </View>
             <Footer />

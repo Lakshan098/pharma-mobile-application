@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import Navbar from '../../Components/Navbar/Navbar';
+import Navbar from '../../Components/Navbar/DeliveryNavbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
@@ -14,7 +14,7 @@ export default function DeliveryDashboard({navigation}) {
         client.post('/DeliveryAgent/CompleteOrder', {
             oid: navigation.getParam('key')
         })
-            Actions.refresh({ key: 'dConfirmedOrders' })
+        navigation.goBack()
 
     }
 
