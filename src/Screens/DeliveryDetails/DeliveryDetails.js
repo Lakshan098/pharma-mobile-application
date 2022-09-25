@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import Navbar from '../../Components/Navbar/Navbar';
+import Navbar from '../../Components/Navbar/DeliveryNavbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
 

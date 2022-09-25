@@ -1,5 +1,5 @@
-import { View, Image, Animated, StyleSheet, ImageBackground,ActivityIndicator, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
-import Navbar from '../../Components/Navbar/Navbar';
+import { View, Image, Animated, StyleSheet, ImageBackground, ActivityIndicator, Text, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
+import Navbar from '../../Components/Navbar/DeliveryNavbar';
 import { globalStyles } from '../../../Styles/Global';
 import SearchBar from "react-native-dynamic-search-bar";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -66,10 +66,9 @@ export default function PharmacySearchPage({ navigation }) {
     //         longitudeDelta: 0.0121,
     //     },
     // ];
-    useEffect( () => {
-        console.log("Loading",loading);
-        client.post('/User/GetOrderPlacedPharmacies', {}).then((response)=> 
-        {
+    useEffect(() => {
+        console.log("Loading", loading);
+        client.post('/User/GetOrderPlacedPharmacies', {}).then((response) => {
             setData([...response.data])
             response.data.map((object) => {
                 pharmacy.push(
@@ -78,19 +77,19 @@ export default function PharmacySearchPage({ navigation }) {
                         name: object.username,
                         open_time: '9.00am - 8.00pm',
                         profile_pic: require('../../Assets/Images/pharmacy1.png'),
-                        address: "Colombo 07",
+                        address: object.address,
                         longitude: 5.947822,
                         latitude: 5.947822,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }
-                )                    
+                )
             })
             console.log("Pharamcies", pharmacy);
             setFilteredDataSource(pharmacy);
             setMasterDataSource(pharmacy);
         });
-    },[]);
+    }, []);
 
     const pharmacyitems = ({ item }) => (
         <ImageBackground
@@ -98,7 +97,12 @@ export default function PharmacySearchPage({ navigation }) {
             imageStyle={{ borderRadius: 10 }}
             source={item.profile_pic}
         >
-            <TouchableHighlight style={styles.darkness} onPress={() => navigation.navigate('Portal')} >
+            <TouchableHighlight style={styles.darkness} onPress={() =>{ 
+                var name = item.name
+                var address = item.address
+                var key = item.key
+
+                navigation.navigate('OrdersFromPharmacy', { name, address, key })}} >
                 <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
             </TouchableHighlight>
 
