@@ -13,7 +13,7 @@ import {
     RichToolbar,
 } from "react-native-pell-rich-editor";
 
-export default function RichTextEditor() {
+export default function RichTextEditor({onType}) {
     const richText = useRef();
 
     const [descHTML, setDescHTML] = useState("");
@@ -23,6 +23,7 @@ export default function RichTextEditor() {
         if (descriptionText) {
             setShowDescError(false);
             setDescHTML(descriptionText);
+            onType(descriptionText);
         } else {
             setShowDescError(true);
             setDescHTML("");
@@ -45,8 +46,9 @@ export default function RichTextEditor() {
                     <RichEditor
                         ref={richText}
                         onChange={richTextHandle}
-                        placeholder="Write your cool content here :)"
+                        placeholder="Write your drug list here :)"
                         androidHardwareAccelerationDisabled={true}
+                        androidLayerType="software"
                         style={styles.richTextEditorStyle}
                         initialHeight={250}
                     />
@@ -55,7 +57,6 @@ export default function RichTextEditor() {
                         selectedIconTint="#873c1e"
                         iconTint="#312921"
                         actions={[
-                            actions.insertImage,
                             actions.setBold,
                             actions.setItalic,
                             actions.insertBulletsList,
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column-reverse",
         width: "100%",
-        marginBottom: 10,
     },
 
     richTextEditorStyle: {
