@@ -38,30 +38,33 @@ export default function CustomerProfile({ navigation }) {
             aspect: [16, 21],
             quality: 1,
         });
-
-        console.log(result);
-
-        if (!result.cancelled) {
+        console.log(result.cancelled);
+        if (result.cancelled == false) {
             setImage(result.uri);
+            const localUri = result.uri;
+            const file = localUri.split('/').pop();
+            const match = /\.(\w+)$/.exec(file);
+            console.log(match);
+            const filename = uid + match[0];
+            console.log(filename);
+            const type = match ? `image/${match[1]}` : `image`;
+            // Upload the image using the fetch and FormData APIs
+            const formData = new FormData();
+            // Assume "photo" is the name of the form field the server expects
+            formData.append('profile', { uri: image, name: filename, type: 'image/jpg'});
+            formData.append('uid',uid);
+            formData.append("user_type",user_type);
+            console.log(formData._parts.profile);
+            client.post('/User/UploadProfilePhoto', formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
         }
-        const localUri = result.uri;
-        const filename = localUri.split('/').pop();
-        console.log(filename);
 
-        const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : `image`;
 
-        // Upload the image using the fetch and FormData APIs
-        const formData = new FormData();
-        // Assume "photo" is the name of the form field the server expects
-        formData.append('profile', { uri: image, name: filename , type: 'image/jpg' ,user_type: user_type});
 
-        client.post('/UploadFile/UploadProfilePhoto', formData, {
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'multipart/form-data',
-            }
-        });
 
     };
 
@@ -95,7 +98,7 @@ export default function CustomerProfile({ navigation }) {
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>
                         <View style={styles.profilepiccontainer}>
-                            <Image source={{uri: image}} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                            <Image source={{ uri: image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
                         </View>
                         <TouchableOpacity
                             onPress={pickImage}

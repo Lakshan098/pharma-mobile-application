@@ -12,14 +12,21 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import RichTextEditor from '../../Components/RichTextEditor/RichTextEditor'
 import * as ImagePicker from 'expo-image-picker';
+import client from '../../Api/client';
 
 
 
 export default function Portal({ navigation }) {
-    const [age, setAge] = useState('');
+    const uid = window.loggedUserId;
+    const user_type = window.loggedUserType;
+    const pharmacy_id = navigation.getParam('key')
     const [prescription, setValue] = React.useState('');
-    const [delivery, askDelivery] = React.useState('');
+    const [delivery, askDelivery] = React.useState(null);
     const [image, setImage] = useState(null);
+    const [descHTML, setDescHTML] = useState("");
+    const [prescription_image, setPrecriptionImage] = useState([]);
+
+    const form = new FormData();
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -30,20 +37,26 @@ export default function Portal({ navigation }) {
             quality: 1,
         });
 
-        console.log(result);
 
-        if (!result.cancelled) {
+        if (result.cancelled == false) {
             setImage(result.uri);
+            const localUri = result.uri;
+            const file = localUri.split('/').pop();
+            const match = /\.(\w+)$/.exec(file);
+            console.log(match);
+            const filename = uid + match[0];
+            const type = match ? `image/${match[1]}` : `image`;
+            setPrecriptionImage(...[{ uri: localUri, name: filename, type: 'image/jpg' }])
+            console.log(prescription_image)
         }
+
     };
 
 
     const expoPushToken = Notifications.getExpoPushTokenAsync();
-    console.log(JSON.stringify(expoPushToken));
     return (
         <View style={globalStyles.fullPage} >
             <ScrollView style={styles.maincontainer}>
-
                 <ImageBackground
                     style={styles.coverImage}
                     imageStyle={{ borderRadius: 10 }}
@@ -55,9 +68,48 @@ export default function Portal({ navigation }) {
                     </TouchableHighlight>
                 </ImageBackground>
                 <Formik
-                    initialValues={{ age: '', isPrescription: prescription, delivery: delivery, user_type: navigation.getParam('option') }}
-                    onSubmit={(value,actions) => {
+                    initialValues={{ age: '', address: '' }}
+                    onSubmit={(value, actions) => {
                         actions.resetForm();
+                        form.append('address', value['address'])
+                        form.append('age', value['age'])
+                        form.append('is_prescription', prescription)
+                        form.append('delivery', delivery)
+                        form.append('uid', uid)
+                        form.append('pharmacy_id', pharmacy_id);
+
+                        if (prescription == "true") {
+                            form.append('prescription', prescription_image);
+                            console.log(form)
+                            client.post('/Customer/makeOrderPrescription',
+                                form, {
+                                headers: {
+                                    Accept: 'application/json',
+                                    'Content-Type': 'multipart/form-data',
+                                }
+                            }
+                            ).then((response) => {
+                                if (response.data.success == true) {
+                                    Actions.ongoingOrders();
+                                }
+                            });
+                        }
+                        else {
+                            form.append('prescription', descHTML)
+                            client.post('/Customer/makeOrder',
+                                form, {
+                                headers: {
+                                    Accept: 'application/json',
+                                    'Content-Type': 'multipart/form-data',
+                                }
+                            }
+                            ).then((response) => {
+                                if (response.data.success == true) {
+                                    Actions.ongoingOrders();
+                                }
+                            });
+                        }
+
                     }}
                 >
                     {(props) => (
@@ -86,7 +138,10 @@ export default function Portal({ navigation }) {
                             {(prescription == "false") ?
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 6 }}> Upload prescription </Text>
-                                    <RichTextEditor />
+                                    <ScrollView>
+                                        <RichTextEditor onType={(value) => { setDescHTML(value) }} />
+                                    </ScrollView>
+
                                 </View>
                                 :
                                 null}
@@ -103,11 +158,11 @@ export default function Portal({ navigation }) {
                             <View style={styles.datacontainer}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', }}> Do you need delivery ?</Text>
                                 <RadioButton.Group onValueChange={value => askDelivery(value)} value={delivery} style={{ flexDirection: 'row' }}>
-                                    <RadioButton.Item label="Yes" value="true" />
-                                    <RadioButton.Item label="No" value="false" />
+                                    <RadioButton.Item label="Yes" value='1' />
+                                    <RadioButton.Item label="No" value='0' />
                                 </RadioButton.Group>
                             </View>
-                            {(delivery == "true") ?
+                            {(delivery == "1") ?
                                 <View style={styles.datacontainer}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 20 }}>Give destination</Text>
                                     <TextInput
