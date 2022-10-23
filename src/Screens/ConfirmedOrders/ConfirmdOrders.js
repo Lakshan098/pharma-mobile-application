@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Text, ScrollView } from 'react-native';
-import Navbar from '../../Components/Navbar/Navbar';
+import Navbar from '../../Components/Navbar/DeliveryNavbar';
 import { globalStyles } from '../../../Styles/Global';
 import Footer from '../../Components/Footer/DeliveryFooter';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
@@ -19,7 +19,7 @@ export default function DeliveryDashboard({ navigation }) {
         client.post('/DeliveryAgent/GetConfirmedOrders', {
             uid: window.loggedUserId
         }).then((response) => {
-            setData(response.data)
+            setData([...response.data])
             response.data.map((object) => {
                 orders.push(
                     {
