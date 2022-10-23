@@ -89,7 +89,6 @@ export default function DeliveryDashboard({ navigation }) {
 
     return (
         <View style={globalStyles.fullPage}>
-            <Navbar />
 
             <View style={styles.pharmacyDetails}>
                 <Image

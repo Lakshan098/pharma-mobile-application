@@ -35,7 +35,7 @@ export default function DeliveryDashboard({ navigation }) {
 
     return (
         <View style={globalStyles.fullPage}>
-            <Navbar />
+
             <Image
                 style={{
                     marginTop: 20,

@@ -13,6 +13,7 @@ import { firebase } from '../../../config';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import axios from 'axios';
 import Navbar from '../../Components/Navbar/Navbar';
+import DelNavbr from '../../Components/Navbar/DeliveryNavbar'
 
 export default function CustomerProfile({ navigation }) {
 
@@ -138,7 +139,19 @@ export default function CustomerProfile({ navigation }) {
     return (
 
         <View style={globalStyles.fullPage}>
-            <Navbar></Navbar>
+            
+            {
+                (user_type == "customer") ?
+                    <Navbar></Navbar>
+                    :
+                    null
+            }
+            {
+                (user_type == "delivery_agent") ?
+                    <DelNavbr />
+                    :
+                    null
+            }
             <ScrollView >
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>

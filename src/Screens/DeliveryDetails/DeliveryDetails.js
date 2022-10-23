@@ -6,7 +6,7 @@ import Footer from '../../Components/Footer/DeliveryFooter';
 export default function DeliveryDashboard({navigation}) {
     return (
         <View style={globalStyles.fullPage}>
-            <Navbar />
+
             <Image
                 style={{
                     flex: 1,
