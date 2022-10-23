@@ -1,18 +1,87 @@
-import React,{useState} from 'react';
-import { Keyboard, StyleSheet, Text, View,Image,TouchableWithoutFeedback,TextInput,TouchableOpacity,ScrollView,Modal,ImageBackground} from 'react-native';
+import React, { useState } from 'react';
+import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
+import Navbar from '../../Components/Navbar/Navbar';
 
-export default function CustomerProfile({navigation}) {
+export default function CustomerProfile({ navigation }) {
+    const notifications = [{
+        key: 1,
+        image: "",
+        notification: "Your order is processing",
+        timestamp: "",
 
-    return(
+    }]
+
+    return (
         <View style={globalStyles.fullPage} >
-            <ScrollView style={styles.maincontainer}>
+            <Navbar></Navbar>
+            <ScrollView>
+                <Text style={styles.header}>Notifications</Text>
+                <View style={styles.maincontainer}>
+                    <View style={styles.notificationcontainer}>
+                        <View style={styles.notificationitems}>
+                            <View style={styles.profilepiccontainer}>
+                                <Image source={require('../../Assets/Images/pharmacy1.png')} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                            </View>
+                            <View style={{width: 230}}>
+                            <Text>
+                                Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+                            </Text>
+                            </View>
+                           
+                        </View>
+                        <View style={{justifyContent: 'flex-end'}}>
+                            
+                        </View>
+
+                    </View>
+                </View>
             </ScrollView>
+            <Footer></Footer>
         </View>
 
     )
 }
+
+const styles = StyleSheet.create({
+    header: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Raleway-ExtraBold',
+    },
+    maincontainer: {
+        height: '100%',
+        width: '100%',
+        marginVertical: 10,
+        alignItems: 'center'
+    },
+    notificationcontainer: {
+        paddingVertical: 5,
+        width: '96%',
+        borderRadius: 10,
+        marginTop: 10,
+        backgroundColor: '#e7e7e7',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column'
+    },
+    profilepiccontainer: {
+        width: 70,
+        height: 70,
+        borderRadius: 100,
+        borderWidth: 0.5,
+        borderColor: 'ash',
+        marginRight: 3,
+        justifyContent: 'center',
+        alignItems:'center'
+
+    },
+    notificationitems: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    }
+})

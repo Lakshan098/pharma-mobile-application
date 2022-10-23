@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, ActivityIndicator, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, ActivityIndicator, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground, SafeAreaView } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
@@ -9,6 +9,10 @@ import DeliveryFooter from '../../Components/Footer/DeliveryFooter';
 import client from '../../Api/client';
 import * as yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
+import { firebase } from '../../../config';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import axios from 'axios';
+import Navbar from '../../Components/Navbar/Navbar';
 
 export default function CustomerProfile({ navigation }) {
 
@@ -24,11 +28,13 @@ export default function CustomerProfile({ navigation }) {
 
     const [data, setData] = useState(null);
     const [isResponsed, setResponse] = useState(false);
+    const [profile_pic, setProfile] = useState("");
     const [username, setUsername] = useState("");
     const [contact_number, setContactNumber] = useState("");
     const [email, setEmail] = useState("");
 
     const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -49,32 +55,69 @@ export default function CustomerProfile({ navigation }) {
             console.log(filename);
             const type = match ? `image/${match[1]}` : `image`;
             // Upload the image using the fetch and FormData APIs
-            const formData = new FormData();
-            // Assume "photo" is the name of the form field the server expects
-            formData.append('profile', { uri: image, name: filename, type: 'image/jpg'});
-            formData.append('uid',uid);
-            formData.append("user_type",user_type);
-            console.log(formData._parts.profile);
-            client.post('/User/UploadProfilePhoto', formData, {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
+            // const formData = new FormData();
+            // // Assume "photo" is the name of the form field the server expects
+            // formData.append('profile', { uri: image, name: filename, type: 'image/jpg'});
+            // formData.append('uid',uid);
+            // formData.append("user_type",user_type);
+            // console.log(formData._parts.profile);
+            // client.post('/User/UploadProfilePhoto', formData, {
+            //     headers: {
+            //         Accept: 'application/json',
+            //         'Content-Type': 'multipart/form-data',
+            //     }
+            // });
+            setUploading(true);
+            const res = await fetch(image)
+            const blob = await res.blob();
+            // const File = image.uri.substring(image.uri.lastIndexOf('/')+1);
+            var reference = firebase.storage().ref().child(uid+new Date().toISOString()+"profile_pic").put(blob);
+            try {
+                await reference;
+                await reference.on("state_changed", (snapshot) => {
+                    const prog = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                },
+                    (err) => console.log(err),
+                    () => {
+                        getDownloadURL(reference.snapshot.ref).then((url) => {
+                            console.log(url);
+                            client.post('/User/UploadProfilePhoto', {
+                                uid: uid,
+                                user_type: user_type,
+                                image_url: url
+                            });
+                        })
+                    }
+                )
+
+                
+
+            } catch (e){
+
+            }
+
+
+
+
         }
-
-
 
 
     };
 
+
     useEffect(() => {
+
         if (user_type == "customer") {
             client.post('/Customer/GetDetails', { uid }).then((response) => {
+
                 setData([...response.data]);
                 setUsername(response.data[0].username);
                 setContactNumber(response.data[0].contact_number);
                 setEmail(response.data[0].email);
+                setImage(response.data[0].profile_pic);
+                
             })
         } else if (user_type == "delivery_agent") {
             client.post('/DeliveryAgent/GetDetails', { uid }).then((response) => {
@@ -82,6 +125,7 @@ export default function CustomerProfile({ navigation }) {
                 setUsername(response.data[0].username);
                 setContactNumber(response.data[0].contact_number);
                 setEmail(response.data[0].email);
+                setImage(response.data[0].profile_pic);
             })
         }
     }, []);
@@ -94,6 +138,7 @@ export default function CustomerProfile({ navigation }) {
     return (
 
         <View style={globalStyles.fullPage}>
+            <Navbar></Navbar>
             <ScrollView >
                 <View style={styles.Detailsmaincontainer}>
                     <View style={styles.profilepicupdatecontainer}>

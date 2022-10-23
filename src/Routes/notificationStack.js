@@ -1,17 +1,18 @@
 import { createStackNavigator } from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
-import { Image } from "react-native";
-import CustomerProfile from "../Screens/CustomerProfile/CustomerProfile";
+import Notification from "../Screens/Notification/Notification";
+
 
 const screens = {
-    CustomerProfile: {
-        screen: CustomerProfile,
+
+
+    Notification: {
+        screen: Notification,
         navigationOptions: {
             headerStyle: {
                 height: 0,
                 elevation: 0,
             },
-            headerLeft: ()=> null,
             headerTitle:'',
             headerTintColor:'white',
         }
@@ -19,6 +20,6 @@ const screens = {
 
 }
 
-const customerProfile = createStackNavigator(screens);
+const Notifications = createStackNavigator(screens);
 
-export default createAppContainer(customerProfile);
+export default createAppContainer(Notifications);

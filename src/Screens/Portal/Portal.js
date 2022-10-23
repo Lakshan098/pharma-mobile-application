@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, ImageBackground, Text, ScrollView, Button, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight, Platform, Pressable } from 'react-native';
+import { View, Image, StyleSheet, ActivityIndicator, ImageBackground, Text, ScrollView, Button, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight, Platform, Pressable } from 'react-native';
 import Footer from '../../Components/Footer/CustomerFooter';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
@@ -13,6 +13,8 @@ import * as Notifications from 'expo-notifications';
 import RichTextEditor from '../../Components/RichTextEditor/RichTextEditor'
 import * as ImagePicker from 'expo-image-picker';
 import client from '../../Api/client';
+import { firebase } from '../../../config';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 
 
@@ -24,9 +26,9 @@ export default function Portal({ navigation }) {
     const [delivery, askDelivery] = React.useState(null);
     const [image, setImage] = useState(null);
     const [descHTML, setDescHTML] = useState("");
-    const [prescription_image, setPrecriptionImage] = useState([]);
+    const [prescription_image, setPrecriptionImage] = useState("");
+    const [uploading, setUploading] = useState(false);
 
-    const form = new FormData();
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -46,14 +48,52 @@ export default function Portal({ navigation }) {
             console.log(match);
             const filename = uid + match[0];
             const type = match ? `image/${match[1]}` : `image`;
-            setPrecriptionImage(...[{ uri: localUri, name: filename, type: 'image/jpg' }])
-            console.log(prescription_image)
+
         }
 
     };
 
+    const uploadPrescription = async () => {
+        setUploading(true);
+        const response = await fetch(image);
+        const blob = await response.blob();
+        // const File = image.uri.substring(image.uri.lastIndexOf('/')+1);
+        var reference = firebase.storage().ref().child(uid + new Date().toISOString() + "prescription").put(blob);
+
+        try {
+            await reference;
+            await reference.on("state_changed", (snapshot) => {
+                const prog = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+            },
+                (err) => console.log(err),
+                () => {
+                    getDownloadURL(reference.snapshot.ref).then((url) => {
+                        console.log(url);
+                        setPrecriptionImage(url);
+                        setUploading(false);
+                        console.log(prescription_image);
+                    })
+                }
+            )
+
+
+
+        } catch (e) {
+
+        }
+    }
+
 
     const expoPushToken = Notifications.getExpoPushTokenAsync();
+    if (uploading == true)
+        return (
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                <ActivityIndicator size="large" />
+            </View>
+        )
+
     return (
         <View style={globalStyles.fullPage} >
             <ScrollView style={styles.maincontainer}>
@@ -69,46 +109,81 @@ export default function Portal({ navigation }) {
                 </ImageBackground>
                 <Formik
                     initialValues={{ age: '', address: '' }}
-                    onSubmit={(value, actions) => {
-                        actions.resetForm();
-                        form.append('address', value['address'])
-                        form.append('age', value['age'])
-                        form.append('is_prescription', prescription)
-                        form.append('delivery', delivery)
-                        form.append('uid', uid)
-                        form.append('pharmacy_id', pharmacy_id);
 
+                    onSubmit={async (value, actions) => {
+                        actions.resetForm();
+                        console.log("h1");
+                        
                         if (prescription == "true") {
-                            form.append('prescription', prescription_image);
-                            console.log(form)
-                            client.post('/Customer/makeOrderPrescription',
-                                form, {
-                                headers: {
-                                    Accept: 'application/json',
-                                    'Content-Type': 'multipart/form-data',
-                                }
+                            setUploading(true);
+                            const response = await fetch(image);
+                            const blob = await response.blob();
+                            // const File = image.uri.substring(image.uri.lastIndexOf('/')+1);
+                            var reference = firebase.storage().ref().child(uid + new Date().toISOString() + "prescription").put(blob);
+
+                            try {
+                                await reference;
+                                await reference.on("state_changed", (snapshot) => {
+                                    const prog = Math.round(
+                                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                                    );
+                                },
+                                    (err) => console.log(err),
+                                    () => {
+                                        getDownloadURL(reference.snapshot.ref).then((url) => {
+                                            console.log(url);
+                                            setPrecriptionImage(url);
+                                            setUploading(false);
+                                            console.log(prescription_image);
+                                            if (prescription == "true") {
+
+                                                client.post('/Customer/makeOrder',
+                                                    {
+                                                        address: value['address'],
+                                                        age: value['age'],
+                                                        is_prescription: prescription,
+                                                        delivery: delivery,
+                                                        uid: uid,
+                                                        pharmacy_id: pharmacy_id,
+                                                        prescription: url
+                                                    }
+                                                ).then((response) => {
+                                                    if (response.data.success == true) {
+                                                        Actions.ongoingOrders();
+                                                    }
+                                                });
+                                            }
+
+                                        })
+
+                                    }
+                                )
+
+                            } catch (e) {
+
                             }
-                            ).then((response) => {
-                                if (response.data.success == true) {
-                                    Actions.ongoingOrders();
-                                }
-                            });
+
                         }
                         else {
-                            form.append('prescription', descHTML)
+                            console.log("manuka");
                             client.post('/Customer/makeOrder',
-                                form, {
-                                headers: {
-                                    Accept: 'application/json',
-                                    'Content-Type': 'multipart/form-data',
+                                {
+                                    address: value['address'],
+                                    age: value['age'],
+                                    is_prescription: prescription,
+                                    delivery: delivery,
+                                    uid: uid,
+                                    pharmacy_id: pharmacy_id,
+                                    prescription: descHTML
                                 }
-                            }
                             ).then((response) => {
                                 if (response.data.success == true) {
                                     Actions.ongoingOrders();
                                 }
                             });
                         }
+
+
 
                     }}
                 >
