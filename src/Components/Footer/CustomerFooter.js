@@ -1,68 +1,73 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Router from '../../../Routes';
 import { Actions } from 'react-native-router-flux';
 
-export default function Footer({navigation}) {
+
+export default function Footer({ navigation }) {
 
     const Home = () => {
-        return(
+        return (
             Actions.customerDashboard()
-            );
+        );
     };
 
     const Profile = () => {
-        return(
+        return (
             Actions.customerProfile()
-            );
+        );
     };
 
     const Orders = () => {
-        return(
+        return (
             Actions.ongoingOrders()
-            );
+        );
     };
     const CompletedOrders = () => {
-        return(
+        return (
             Actions.dCompletedOrders()
-            );
+        );
     };
 
 
     return (
-        <View style={styles.footerContainer}>
+        <SafeAreaView>
 
-            <TouchableOpacity>
-                <View style={styles.iconContainer}>
-                    <Icon style={styles.homeIcon} name="home" size={30} color="#2e2e1f" onPress={Home}/>
-                    <Text onPress={Home}>Home</Text>
-                </View>
-            </TouchableOpacity>
 
-            <TouchableOpacity>
-                <View style={styles.iconContainer}>
-                    <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" onPress={Orders} />
-                    <Text>Orders</Text>
-                </View>
-            </TouchableOpacity>
+            <View style={styles.footerContainer}>
 
-            <TouchableOpacity>
-                <View style={styles.iconContainer}>
-                    <Icon style={styles.historyIcon} name="history" size={30} color="#2e2e1f" onPress={CompletedOrders}/>
-                    <Text onPress={CompletedOrders}>History</Text>
-                </View>
-            </TouchableOpacity>
+                <Pressable onPress={Home}>
+                    <View style={styles.iconContainer}>
+                        <Icon style={styles.homeIcon} name="home" size={30} color="#2e2e1f" onPress={Home} />
+                        <Text >Home</Text>
+                    </View>
+                </Pressable>
 
-            <TouchableOpacity>
-                <View style={styles.iconContainer}>
-                    <Icon style={styles.userIcon} name="user" size={30} color="#2e2e1f" onPress={Profile} />
-                    <Text>Profile</Text>
-                </View>
-            </TouchableOpacity>
-            
-        </View>
+                <Pressable onPress={Orders}>
+                    <View style={styles.iconContainer}>
+                        <Icon style={styles.cartIcon} name="shopping-cart" size={30} color="#2e2e1f" />
+                        <Text>Orders</Text>
+                    </View>
+                </Pressable>
+
+                <Pressable onPress={CompletedOrders}>
+                    <View style={styles.iconContainer}>
+                        <Icon style={styles.historyIcon} name="history" size={30} color="#2e2e1f" />
+                        <Text onPress={CompletedOrders}>History</Text>
+                    </View>
+                </Pressable>
+
+                <Pressable onPress={Profile}>
+                    <View style={styles.iconContainer}>
+                        <Icon style={styles.userIcon} name="user" size={30} color="#2e2e1f" />
+                        <Text>Profile</Text>
+                    </View>
+                </Pressable>
+
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -70,11 +75,12 @@ const styles = StyleSheet.create({
 
     footerContainer: {
         opacity: 1,
-        height: 60,
+        height: 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 35,
         paddingRight: 35,
+        paddingBottom: 30,
         position: 'absolute',
         left: 0,
         right: 0,
@@ -85,6 +91,7 @@ const styles = StyleSheet.create({
 
     iconContainer: {
         marginTop: 10,
+        paddingVertical: 5
     },
 
     userIcon: {
