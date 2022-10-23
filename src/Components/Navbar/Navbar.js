@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image,Modal,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image,Modal,TouchableOpacity,SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
@@ -9,6 +9,7 @@ import React,{useState,useContext} from 'react';
 import { Actions } from 'react-native-router-flux';
 import { AuthContext } from '../../Context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function Navbar({ navigation }) {
@@ -48,16 +49,16 @@ export default function Navbar({ navigation }) {
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             >
-                <Pressable><Icon onPress={() => {setVisibility(!visibility)}}style={styles.menu} name="bars" size={25} color="#fff"/></Pressable>
+                <Pressable><Icon onPress={() => {setVisibility(!visibility)}} style={styles.menu} name="bars" size={25} color="#fff"/></Pressable>
                 <Image source={require('../../Assets/Brand/Logo1.png')} style={styles.logo} />
-                <Icon style={styles.bell} name="bell" size={25} color="#fff"/>
+                <Pressable><Icon onPress={() => Actions.notifications()} style={styles.bell} name="bell" size={25} color="#fff"/></Pressable>
             </LinearGradient>
             <Modal
              transparent = {true}
              visible={visibility} 
             >
                 <View style={{backgroundColor:'#000000aa',flex: 1}}>
-                    <View style={{backgroundColor: '#ffffff' ,height: '100%',borderRadius:10,width: '80%'}}>
+                    <SafeAreaView style={{backgroundColor: '#ffffff' ,height: '100%',borderRadius:10,width: '80%'}}>
                         <Pressable style={{justifyContent: 'flex-end',width:'100%',alignItems:'flex-end',paddingRight:10,paddingTop:10}}>
                             <TouchableOpacity onPress={() => {setVisibility(!visibility)}}>
                                 <Icon name="close" size={22} color="red"/>
@@ -76,7 +77,7 @@ export default function Navbar({ navigation }) {
                             <Text style={{ fontSize: 16, fontWeight: 'bold',textAlign: 'center' }}>Logout</Text>    
                         </Pressable>
     
-                    </View>
+                    </SafeAreaView>
 
                  </View>
             </Modal>

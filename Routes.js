@@ -9,6 +9,7 @@ import customerProfile from './src/Routes/customerProfileStack'
 import ForgotPasswordStack from './src/Routes/forgotPasswordStack'
 import EmailVerify from './src/Routes/emailVerification'
 import OngoingOrders from './src/Routes/customerOrders'
+import  Notifications  from './src/Routes/notificationStack'
 import DeliveryRegisteredPharmacies from './src/Routes/registerForPharmacy'
 import DeliveryRegisterForPharmacies from './src/Routes/newPharmaciesStack'
 
@@ -19,7 +20,7 @@ export default function Routes() {
    return (
       <Router>
          <Scene key="root">
-         <Scene key="login" component={Login} initial={true} hideNavBar={true} />
+            <Scene key="login" component={Login} initial={true} hideNavBar={true} />
             <Scene key="forgotPassword" component={ForgotPasswordStack} hideNavBar={true} />
             <Scene key="verifyEmail" component={EmailVerify} hideNavBar={true} />
             <Scene key="customerDashboard" component={customerDashboard} hideNavBar={true} />
@@ -28,6 +29,7 @@ export default function Routes() {
             <Scene key="dDashboard" component={DDashboard} hideNavBar={true} />
             <Scene key="dConfirmedOrders" component={DConfirmedOrders} hideNavBar={true} />
             <Scene key="dCompletedOrders" component={DCompletedOrders} hideNavBar={true} />
+            <Scene key="notifications" component={Notifications} hideNavBar={true} />
             <Scene key="dRegisteredPharmacies" component={DeliveryRegisteredPharmacies} hideNavBar={true} />
             <Scene key="dRegisterForPharmacies" component={DeliveryRegisterForPharmacies} hideNavBar={true} />
          </Scene>
