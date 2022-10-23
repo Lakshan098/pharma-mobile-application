@@ -13,7 +13,7 @@ export default function PharmacyDetails({ navigation }) {
             uid: window.loggedUserId,
             pid: navigation.getParam('key')
         })
-        navigation.goBack()
+        navigation.replace('RegisterForPharmacies',null, null)
 
     }
 
@@ -37,7 +37,7 @@ export default function PharmacyDetails({ navigation }) {
 
     return (
         <View style={globalStyles.fullPage}>
-            <Navbar />
+
             <Image
                 style={{
                     marginTop: 20,

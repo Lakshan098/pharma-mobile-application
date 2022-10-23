@@ -124,11 +124,11 @@ export default function PharmacySearchPage({ navigation }) {
         }
     };
 
-    if (data == null) return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-            <ActivityIndicator size="large" />
-        </View>
-    )
+    // if (data == null) return (
+    //     <View style={{ flex: 1, justifyContent: "center" }}>
+    //         <ActivityIndicator size="large" />
+    //     </View>
+    // )
     return (
         <View style={globalStyles.fullPage} >
             {/* <Drawer></Drawer>   */}

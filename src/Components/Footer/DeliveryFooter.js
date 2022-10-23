@@ -97,5 +97,8 @@ const styles = StyleSheet.create({
     },
     homeIcon: {
         paddingLeft: 3,
+    },
+    historyIcon: {
+        paddingLeft: 6
     }
 });

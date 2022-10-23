@@ -86,7 +86,6 @@ export default function Portal({ navigation }) {
     }
 
 
-    const expoPushToken = Notifications.getExpoPushTokenAsync();
     if (uploading == true)
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>

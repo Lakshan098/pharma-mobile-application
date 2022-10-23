@@ -27,14 +27,13 @@ const screens = {
                 elevation: 0,
                 backgroundColor: '#0f587d'
             },
-            headerLeft: ()=> null,
             headerTitle:(
-                <Image style={{ height: 100, width:140, alignSelf:'center', position:'relative', marginLeft:-50}}
+                <Image style={{ height: 100, width:140, alignSelf:'center', marginRight:40, position:'relative'}}
                     resizeMode="contain"
-                    source={require('../Assets/Brand/Logo1.png')}
+                    source={require('../../src/Assets/Brand/Logo1.png')}
                 />
             ),
-            headerTintColor:'white',
+            headerTintColor:'red',
         }
     }
 
