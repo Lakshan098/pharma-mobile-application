@@ -14,7 +14,7 @@ export default function DeliveryDashboard({navigation}) {
         client.post('/DeliveryAgent/CompleteOrder', {
             oid: navigation.getParam('key')
         })
-        navigation.goBack()
+        navigation.replace('OrdersList',null, null)
 
     }
 

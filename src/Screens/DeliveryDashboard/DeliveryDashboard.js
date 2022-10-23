@@ -31,57 +31,26 @@ export default function PharmacySearchPage({ navigation }) {
         Actions.refresh({ key: 'dDashboard' });
     }
 
-    // const pharmacy = [
-    //     {
-    //         key: 1,
-    //         name: 'Lanka Pharmacy',
-    //         address: 'Colombo 09',
-    //         open_time: '9.00am - 8.00pm',
-    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
-    //         latitude: 5.947822,
-    //         longitude: 80.5482919,
-    //         latitudeDelta: 0.015,
-    //         longitudeDelta: 0.0121,
-    //     },
-    //     {
-    //         key: 2,
-    //         name: 'Suwasana Pharmacy',
-    //         address: 'Colombo 09',
-    //         open_time: '9.00am - 8.00pm',
-    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
-    //         latitude: 6.9010964999999995,
-    //         longitude: 79.86043452816955,
-    //         latitudeDelta: 0.015,
-    //         longitudeDelta: 0.0121,
-    //     },
-    //     {
-    //         key: 3,
-    //         name: 'Aruna Pharmacy',
-    //         address: 'Colombo 09',
-    //         open_time: '9.00am - 8.00pm',
-    //         profile_pic: require('../../Assets/Images/pharmacy1.png'),
-    //         latitude: 6.9173013,
-    //         longitude: 79.864813,
-    //         latitudeDelta: 0.015,
-    //         longitudeDelta: 0.0121,
-    //     },
-    // ];
     useEffect(() => {
         console.log("Loading", loading);
-        client.post('/User/GetOrderPlacedPharmacies', {}).then((response) => {
+        client.post('/User/GetOrderPlacedPharmacies', {
+            uid: window.loggedUserId
+        }).then((response) => {
             setData([...response.data])
             response.data.map((object) => {
                 pharmacy.push(
                     {
                         key: object.uid,
                         name: object.username,
-                        open_time: '9.00am - 8.00pm',
+                        open_time: object.open_time,
+                        close_time: object.close_time,
                         profile_pic: require('../../Assets/Images/pharmacy1.png'),
                         address: object.address,
                         longitude: 5.947822,
                         latitude: 5.947822,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
+                        rating: object.rating,
                     }
                 )
             })
@@ -101,9 +70,12 @@ export default function PharmacySearchPage({ navigation }) {
                 var name = item.name
                 var address = item.address
                 var key = item.key
+                var openTime = item.open_time
+                var closeTime = item.close_time
+                var rating = item.rating
 
-                navigation.navigate('OrdersFromPharmacy', { name, address, key })}} >
-                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
+                navigation.navigate('OrdersFromPharmacy', { name, address, key, openTime, closeTime,rating })}} >
+                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time} - {item.close_time}</Text>
             </TouchableHighlight>
 
         </ImageBackground>

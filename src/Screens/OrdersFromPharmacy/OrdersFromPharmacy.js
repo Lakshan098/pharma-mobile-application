@@ -98,12 +98,12 @@ export default function DeliveryDashboard({ navigation }) {
                 />
 
                 <View>
-                    <Text style={styles.pharmacyText}><Text style={styles.pharmacyTextHeader}>{navigation.getParam('name')}</Text>{'\n'}{navigation.getParam('address')}{'\n'}open 9.00am-8.00pm{'\n'}Rating:
+                    <Text style={styles.pharmacyText}><Text style={styles.pharmacyTextHeader}>{navigation.getParam('name')}</Text>{'\n'}{navigation.getParam('address')}{'\n'}{navigation.getParam('openTime')} - {navigation.getParam('closeTime')}{'\n'}Rating:
                         <Rating
                             type='star'
                             ratingCount={5}
                             imageSize={18}
-                            startingValue={4}
+                            startingValue={navigation.getParam('rating')}
                             readonly
                         />
                     </Text>

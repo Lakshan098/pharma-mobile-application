@@ -25,10 +25,12 @@ export default function DeliveryDashboard({ navigation }) {
                     {
                         key: object.uid,
                         name: object.username,
-                        open_time: '9.00am - 8.00pm',
+                        open_time: object.open_time,
+                        close_time: object.close_time,
                         profile_pic: require('../../Assets/Images/pharmacy1.png'),
                         address: object.address,
                         telephone: object.contact_number,
+                        rating: object.rating,
                     }
                 )
             })
@@ -49,10 +51,12 @@ export default function DeliveryDashboard({ navigation }) {
                 var key = item.key
                 var telephone = item.telephone
                 var openTime = item.open_time
+                var closeTime = item.close_time
+                var rating = item.rating
 
-                navigation.navigate('PharmacyDetails', { name, address, key, telephone, openTime })
+                navigation.navigate('PharmacyDetails', { name, address, key, telephone, openTime, closeTime, rating })
             }} >
-                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
+                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time} - {item.close_time}</Text>
             </TouchableOpacity>
 
         </ImageBackground>

@@ -25,10 +25,12 @@ export default function DeliveryRegisteredPharmacies({ navigation }) {
                     {
                         key: object.pharmacy_id,
                         name: object.username,
-                        open_time: '9.00am - 8.00pm',
+                        open_time: object.open_time,
+                        close_time: object.close_time,
                         profile_pic: require('../../Assets/Images/pharmacy1.png'),
                         address: object.address,
                         telephone: object.contact_number,
+                        rating: object.rating,
                     }
                 )
             })
@@ -36,6 +38,7 @@ export default function DeliveryRegisteredPharmacies({ navigation }) {
             setDataList(pharmacy)
         });
     }, []);
+    
 
     const pharmacyitems = ({ item }) => (
         <ImageBackground
@@ -48,10 +51,12 @@ export default function DeliveryRegisteredPharmacies({ navigation }) {
                 var address = item.address
                 var key = item.key
                 var telephone = item.telephone
-                var openTIme = item.open_time
+                var openTime = item.open_time
+                var closeTime = item.close_time
+                var rating = item.rating
 
-                navigation.navigate('PharmacyDetails', { name, address, key, telephone, openTIme })}} >
-                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
+                navigation.navigate('PharmacyDetails', { name, address, key, telephone, openTime, closeTime, rating })}} >
+                <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time} - {item.close_time}</Text>
             </TouchableOpacity>
 
         </ImageBackground>
