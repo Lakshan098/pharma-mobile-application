@@ -52,13 +52,13 @@ export default function PharmacyDetails({ navigation }) {
                     <Text style={styles.orderContentTitle}>Name:</Text> {navigation.getParam('name')}{'\n'}
                     <Text style={styles.orderContentTitle}>Address:</Text> {navigation.getParam('address')}{'\n'}
                     <Text style={styles.orderContentTitle}>Telephone: </Text>{navigation.getParam('telephone')}{'\n'}
-                    <Text style={styles.orderContentTitle}>Open:</Text> {navigation.getParam('openTime')}{'\n'}
+                    <Text style={styles.orderContentTitle}>Open:</Text> {navigation.getParam('openTime')} - {navigation.getParam('closeTime')}{'\n'}
                     <Text style={styles.orderContentTitle}>Rating: </Text>
                     <Rating
                         type='star'
                         ratingCount={5}
                         imageSize={18}
-                        startingValue={4}
+                        startingValue={navigation.getParam('rating')}
                         tintColor='#e7e7e7'
                         readonly
                     />
