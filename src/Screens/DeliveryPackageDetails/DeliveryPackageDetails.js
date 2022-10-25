@@ -36,7 +36,7 @@ export default function DeliveryDashboard({navigation}) {
 
     return (
         <View style={globalStyles.fullPage}>
-            <Navbar />
+
             <ScrollView style={styles.maincontainer}>
                 <Image
                     style={{

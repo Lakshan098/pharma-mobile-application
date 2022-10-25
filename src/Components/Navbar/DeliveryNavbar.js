@@ -66,7 +66,7 @@ export default function Navbar({ navigation }) {
             >
                 <Pressable><Icon onPress={() => { setVisibility(!visibility) }} style={styles.menu} name="bars" size={25} color="#fff" /></Pressable>
                 <Image source={require('../../Assets/Brand/Logo1.png')} style={styles.logo} />
-                <Icon style={styles.bell} name="bell" size={25} color="#fff" />
+                <Pressable><Icon onPress={() => Actions.notifications()} style={styles.bell} name="bell" size={25} color="#fff"/></Pressable>
             </LinearGradient>
             <Modal
                 transparent={true}

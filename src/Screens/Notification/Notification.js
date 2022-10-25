@@ -5,9 +5,14 @@ import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/Acto
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
+import DelFooter from '../../Components/Footer/DeliveryFooter';
 import Navbar from '../../Components/Navbar/Navbar';
+
 import client from '../../Api/client';
 
+
+
+import DelNavbar from '../../Components/Navbar/DeliveryNavbar';
 export default function CustomerProfile({ navigation }) {
     const uid = window.loggedUserId;
     const notifications = [{
@@ -65,7 +70,18 @@ export default function CustomerProfile({ navigation }) {
     )
     return (
         <View style={globalStyles.fullPage} >
-            <Navbar></Navbar>
+            {
+                (user_type == "customer") ?
+                    <Navbar></Navbar>
+                    :
+                    null
+            }
+            {
+                (user_type == "delivery_agent") ?
+                    <DelNavbar />
+                    :
+                    null
+            }
             <ScrollView>
                 <Text style={styles.header}>Notifications</Text>
                 <View style={styles.maincontainer}>
@@ -94,7 +110,18 @@ export default function CustomerProfile({ navigation }) {
                     </View> */}
                 </View>
             </ScrollView>
-            <Footer></Footer>
+                        {
+                (user_type == "customer") ?
+                    <Footer></Footer>
+                    :
+                    null
+            }
+            {
+                (user_type == "delivery_agent") ?
+                    <DelFooter />
+                    :
+                    null
+            }
         </View>
 
     )
