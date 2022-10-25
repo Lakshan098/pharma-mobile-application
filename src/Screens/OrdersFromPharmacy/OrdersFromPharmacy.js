@@ -6,8 +6,18 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import React, { useState, useEffect, useCallback } from 'react';
 import client from '../../Api/client';
 import { FlatList } from 'react-native-gesture-handler';
+import {getDistance} from 'geolib';
 
 export default function DeliveryDashboard({ navigation }) {
+
+    const destanceCalculate = (lat1, lon1, lat2, lon2) => {
+        var dis = getDistance(
+            {latitude: lat1, longitude: lon1},
+            {latitude: lat2, longitude: lon2},
+          );
+
+          return dis;
+    }
 
     const dataPass = (oid) => {
         console.log(oid)
