@@ -34,9 +34,9 @@ export default function verifyEmail({navigation}){
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView style={globalStyles.fullPage}>
                 <View>
-                    <Image style={styles.forgetPasswordImg}source={require('../../Assets/Images/mail-gif.gif')} />
-                    <Text style={ {fontSize:25,padding:5,textAlign:'center',fontFamily:'Raleway-Bold'}}>Check your email</Text>
-                    <Text style={styles.boldtext}>We have sent a verification OTP to your email</Text>
+                    <Image style={styles.forgetPasswordImg} source={require('../../Assets/Images/mobile.png')} />
+                    <Text style={ {fontSize:25,padding:5,textAlign:'center',fontFamily:'Raleway-Bold'}}>Check your mobile inbox</Text>
+                    <Text style={styles.boldtext}>We have sent a verification OTP to your mobile number</Text>
                     
                     <Formik
                         validationSchema={reviewSchema}

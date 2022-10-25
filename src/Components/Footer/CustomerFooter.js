@@ -27,7 +27,7 @@ export default function Footer({ navigation }) {
     };
     const CompletedOrders = () => {
         return (
-            Actions.dCompletedOrders()
+            Actions.ordersHistory()
         );
     };
 

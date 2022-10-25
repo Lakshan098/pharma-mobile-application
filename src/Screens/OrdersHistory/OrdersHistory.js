@@ -8,92 +8,112 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import client from '../../Api/client';
 import { ActivityIndicator } from 'react-native';
 import * as OpenAnything from 'react-native-openanything';
+import StartRating from '../../Components/StarRating/StarRating';
 
 
-export default function OngoingOrders({ navigation }) {
+export default function OrdersHistory({ navigation }) {
     const uid = window.loggedUserId;
     const [data, setData] = useState(null);
     const orders = [];
     const [orderList, setOrderList] = useState([]);
 
+    const [pharmacydefaultRating, setDefaultRatingforPharmacy] = useState(0);
+    const [deliveryagentdefaultRating, setDefaultRatingforDelivery] = useState(0);
+    // To set the max number of Stars
+    const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
+
+    // Filled Star. You can also give the path from local
+    const starImageFilled =
+        'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png';
+    // Empty Star. You can also give the path from local
+    const starImageCorner =
+        'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
+
+    const CustomRatingBar1 = () => {
+        return (
+            <View style={styles.customRatingBarStyle}>
+                {maxRating.map((item, key) => {
+                    return (
+                        <Pressable
+                            activeOpacity={0.7}
+                            key={item}
+                            onPress={() => setDefaultRatingforPharmacy(item)}>
+                            <Image
+                                style={styles.starImageStyle}
+                                source={
+                                    item <= pharmacydefaultRating
+                                        ? { uri: starImageFilled }
+                                        : { uri: starImageCorner }
+                                }
+                            />
+                        </Pressable>
+                    );
+                })}
+            </View>
+        );
+    };
+    const CustomRatingBar2 = () => {
+        return (
+            <View style={styles.customRatingBarStyle}>
+                {maxRating.map((item, key) => {
+                    return (
+                        <Pressable
+                            activeOpacity={0.7}
+                            key={item}
+                            onPress={() => setDefaultRatingforDelivery(item)}>
+                            <Image
+                                style={styles.starImageStyle}
+                                source={
+                                    item <= deliveryagentdefaultRating
+                                        ? { uri: starImageFilled }
+                                        : { uri: starImageCorner }
+                                }
+                            />
+                        </Pressable>
+                    );
+                })}
+            </View>
+        );
+    };
+
 
     useEffect(() => {
+
+        console.log(uid)
         client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
-            if (response) {
-                setOrderList([]);
-                response.data.map((object) => {
-                    if (object.status != "completed") {
-                        setOrderList(prevState => [...prevState,
-                        {
-                            key: object.order_id,
-                            customer_id: object.customer_id,
-                            pharmacy_id: object.pharmacy_id,
-                            delivery_agent_id: object.delivery_agent_id,
-                            address: object.address,
-                            price: object.price,
-                            payment: object.payment,
-                            delivery_need: object.delivery_need,
-                            delivery_fee: object.delivery_fee,
-                            time_stamp: object.time_stamp,
-                            status: object.status,
-                            customer_approval: object.customer_approval,
-                            feedback_report: object.feedback_report,
-                            pharmacy_name: object.pharmacy_name,
-                            pharmacy_address: object.pharmacy_address,
-                            pharmacy_telephone: object.pharmacy_telephone,
-                            account_number: object.account_number,
-                            delivery_agent_name: object.delivery_agent_name,
-                            delivery_agent_telephone: object.delivery_agent_telephone,
-                            profile_pic: object.profile_pic
-                        }
-                        ])
-                        console.log(orderList);
+
+            setOrderList([])
+            console.log(response.data);
+            response.data.map((object) => {
+                if (object.status == "completed") {
+                    setOrderList(prevState => [...prevState,
+                    {
+                        key: object.order_id,
+                        customer_id: object.customer_id,
+                        pharmacy_id: object.pharmacy_id,
+                        delivery_agent_id: object.delivery_agent_id,
+                        address: object.address,
+                        price: object.price,
+                        payment: object.payment,
+                        delivery_need: object.delivery_need,
+                        delivery_fee: object.delivery_fee,
+                        time_stamp: object.time_stamp,
+                        status: object.status,
+                        customer_approval: object.customer_approval,
+                        feedback_report: object.feedback_report,
+                        pharmacy_name: object.pharmacy_name,
+                        pharmacy_address: object.pharmacy_address,
+                        pharmacy_telephone: object.pharmacy_telephone,
+                        account_number: object.account_number,
+                        delivery_agent_name: object.delivery_agent_name,
+                        delivery_agent_telephone: object.delivery_agent_telephone,
+                        profile_pic: object.profile_pic
                     }
-                })
-            }
-
-        })
-
-        const interval = setInterval(() => {
-            client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
-                if (response) {
-                    setOrderList([]);
-                    response.data.map((object) => {
-                        if (object.status != "completed") {
-                            setOrderList(prevState => [...prevState,
-                            {
-                                key: object.order_id,
-                                customer_id: object.customer_id,
-                                pharmacy_id: object.pharmacy_id,
-                                delivery_agent_id: object.delivery_agent_id,
-                                address: object.address,
-                                price: object.price,
-                                payment: object.payment,
-                                delivery_need: object.delivery_need,
-                                delivery_fee: object.delivery_fee,
-                                time_stamp: object.time_stamp,
-                                status: object.status,
-                                customer_approval: object.customer_approval,
-                                feedback_report: object.feedback_report,
-                                pharmacy_name: object.pharmacy_name,
-                                pharmacy_address: object.pharmacy_address,
-                                pharmacy_telephone: object.pharmacy_telephone,
-                                account_number: object.account_number,
-                                delivery_agent_name: object.delivery_agent_name,
-                                delivery_agent_telephone: object.delivery_agent_telephone,
-                                profile_pic: object.profile_pic
-                            }
-                            ])
-
-                        }
-                    })
+                    ])
                 }
-
             })
 
-        }, 30000);
-        return () => clearInterval(interval);
-
+        })
 
     }, []);
 
@@ -115,16 +135,16 @@ export default function OngoingOrders({ navigation }) {
                 <View style={{ height: 30, width: 100, backgroundColor: '#4df096', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}><Text>Delivery</Text></View>
             )
         }
-        else if (orderStatus == 'delivering') {
+        else if (orderStatus == 'completed') {
             return (
-                <View style={{ height: 30, width: 100, backgroundColor: '#4df096', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}><Text>Delivery</Text></View>
+                <View style={{ height: 30, width: 100, backgroundColor: '#32BBC3', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}><Text>Completed</Text></View>
             )
         }
     }
 
     const orderItems = ({ item }) => (
 
-        <TouchableOpacity >
+        <View >
             <View style={styles.orders}>
                 <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between', padding: 4 }}>
                     <Text style={styles.orderId}>Order ID: {item.key}</Text>
@@ -184,8 +204,42 @@ export default function OngoingOrders({ navigation }) {
                             </TouchableOpacity>
                         </View> : null
                 }
+                <View style={styles.container}>
+
+                    <Text style={styles.textStyle}>How was your experience with {item.pharmacy_name}</Text>
+                    <Text style={styles.textStyleSmall}>Please Rate</Text>
+                    {/*View to hold our Stars*/}
+                    <CustomRatingBar1 />
+                    <Text style={styles.textStyle}>
+                        {/*To show the rating selected*/}
+                        {pharmacydefaultRating} / {Math.max.apply(null, maxRating)}
+                    </Text>
+                    <Pressable
+                        activeOpacity={0.7}
+                        style={styles.buttonStyle}
+                        onPress={() => Alert.alert("Rating Successful", "Confirmation",
+                            [
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        client.post('/Customer/ratings', { uid: item.pharmacy_id, rate: pharmacydefaultRating, type: "pharmacy" }).then((response) => {
+
+                                        }, [])
+                                    }
+                                }
+                            ])}>
+                        {/*Clicking on button will show the rating as an alert*/}
+                        <Text style={styles.buttonTextStyle}>Rate the {item.pharmacy_name}</Text>
+                    </Pressable>
+                </View>
+
                 {
-                    (item.status == "delivering") ?
+                    (item.delivery_agent_id != null) ?
                         <View>
                             <View
                                 style={{
@@ -215,10 +269,45 @@ export default function OngoingOrders({ navigation }) {
                     (item.delivery_agent_id == null && item.status == "delivery") ?
                         <View style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}><Text style={{ fontSize: 16, fontFamily: 'Raleway-ExtraBold', }}>Searching for delivery agent...!</Text><ActivityIndicator size={'large'}></ActivityIndicator></View> : null
                 }
+
+                <View style={styles.container}>
+
+                    <Text style={styles.textStyle}>How was your experience with {item.delivery_agent_name}</Text>
+                    <Text style={styles.textStyleSmall}>Please Rate</Text>
+                    {/*View to hold our Stars*/}
+                    <CustomRatingBar2 />
+                    <Text style={styles.textStyle}>
+                        {/*To show the rating selected*/}
+                        {deliveryagentdefaultRating} / {Math.max.apply(null, maxRating)}
+                    </Text>
+                    <Pressable
+                        activeOpacity={0.7}
+                        style={styles.buttonStyle}
+                        onPress={() => Alert.alert("Rating Successful", "Confirmation",
+                            [
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                {
+                                    text: "Ok",
+                                    onPress: () => {
+                                        client.post('/Customer/ratings', { uid: item.delivery_agent_id, rate: deliveryagentdefaultRating, type: "delivery_agent" }).then((response) => {
+
+                                        }, [])
+                                    }
+                                }
+                            ])}>
+                        {/*Clicking on button will show the rating as an alert*/}
+                        <Text style={styles.buttonTextStyle}>Rate the {item.delivery_agent_name}</Text>
+                    </Pressable>
+                </View>
+
             </View>
 
 
-        </TouchableOpacity>
+        </View>
 
     )
     return (
@@ -226,7 +315,7 @@ export default function OngoingOrders({ navigation }) {
             <Navbar />
             <ScrollView nestedScrollEnabled={true}>
                 <View style={globalStyles.boxContainer}>
-                    <Text style={styles.header}>Ongoing Orders</Text>
+                    <Text style={styles.header}>Orders History</Text>
                     <View style={styles.ordersContainer}>
                         {(orderList != []) ?
                             <FlatList
@@ -383,7 +472,49 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginVertical: 10
     },
-
+    container: {
+        height: 200,
+        width: '100%',
+        padding: 10,
+        marginVertical: 20,
+        justifyContent: 'center',
+        textAlign: 'center',
+    },
+    titleText: {
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    textStyle: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#000',
+    },
+    textStyleSmall: {
+        textAlign: 'center',
+        fontSize: 14,
+        color: '#000',
+        marginTop: 15,
+    },
+    buttonStyle: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 30,
+        padding: 15,
+        backgroundColor: '#8ad24e',
+    },
+    buttonTextStyle: {
+        color: '#fff',
+        textAlign: 'center',
+    },
+    customRatingBarStyle: {
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    starImageStyle: {
+        width: 40,
+        height: 40,
+    },
 
 
 })
