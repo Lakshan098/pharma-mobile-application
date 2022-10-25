@@ -76,9 +76,9 @@ export default function PharmacySearchPage({ navigation }) {
                     {
                         key: object.uid,
                         name: object.username,
-                        open_time: '9.00am - 8.00pm',
-                        profile_pic: require('../../Assets/Images/pharmacy1.png'),
-                        address: "Colombo 07",
+                        open_time: object.open_time +" - "+object.close_time,
+                        profile_pic: object.profile_pic,
+                        address: object.address,
                         longitude: 5.947822,
                         latitude: 5.947822,
                         latitudeDelta: 0.015,
@@ -97,7 +97,7 @@ export default function PharmacySearchPage({ navigation }) {
         <ImageBackground
             style={styles.coverImage}
             imageStyle={{ borderRadius: 10 }}
-            source={item.profile_pic}
+            source={{ uri: item.profile_pic }}
         >
             <TouchableHighlight style={styles.darkness} id={item.key} onPress={() => {
                 var key = item.key
@@ -105,7 +105,7 @@ export default function PharmacySearchPage({ navigation }) {
                 var address = item.address
                 var profile = item.profile_pic
                 var time = item.open_time
-        
+                
                 navigation.navigate('Portal',{key,name,address,profile,time})}} >
                 <Text style={styles.pharmacyDetails}><Text style={styles.pharmacyName}>{item.name}</Text>{'\n'}{item.address}{'\n'}{item.open_time}</Text>
             </TouchableHighlight>

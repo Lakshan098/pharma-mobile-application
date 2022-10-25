@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground,FlatList } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
@@ -7,11 +7,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
 import DelFooter from '../../Components/Footer/DeliveryFooter';
 import Navbar from '../../Components/Navbar/Navbar';
+
+import client from '../../Api/client';
+
+
+
 import DelNavbar from '../../Components/Navbar/DeliveryNavbar';
-
 export default function CustomerProfile({ navigation }) {
-    const user_type = window.loggedUserType;
-
+    const uid = window.loggedUserId;
     const notifications = [{
         key: 1,
         image: "",
@@ -19,7 +22,52 @@ export default function CustomerProfile({ navigation }) {
         timestamp: "",
 
     }]
+    const [notification, setNotification] = useState([]);
 
+    useEffect(() => {
+       
+        console.log(uid)
+        client.post('/User/getNotifications', { uid : uid }).then((response) => {
+            setNotification([]);
+            console.log(response.data);
+            response.data.map((object) => {
+                
+                setNotification(prevState => [...prevState,
+                {
+                    key: object.notification_id,
+                    image: object.profile_pic,
+                    notification: object.notification,
+                    timestamp: object.time_stamp,
+                }
+                ])
+            })
+
+            console.log(notification);
+        })
+
+    }, []);
+
+    const notificationRendering = ({ item }) => (
+        <View style={styles.notificationcontainer}>
+            <View style={styles.notificationitems}>
+                <View style={styles.profilepiccontainer}>
+                    <Image source={{ uri: item.image }} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
+                </View>
+                <View style={{ width: 230 }}>
+                    <Text>
+                        {item.notification}
+                    </Text>
+                </View>
+
+            </View>
+            <View style={{ justifyContent: 'flex-end' }}>
+                <Text style={{fontSize: 11, color: 'gray'}}>
+                    {item.timestamp}
+                </Text>
+            </View>
+
+        </View>
+    )
     return (
         <View style={globalStyles.fullPage} >
             {
@@ -37,23 +85,29 @@ export default function CustomerProfile({ navigation }) {
             <ScrollView>
                 <Text style={styles.header}>Notifications</Text>
                 <View style={styles.maincontainer}>
-                    <View style={styles.notificationcontainer}>
+                {(notification != []) ?
+                            <FlatList
+                                data={notification}
+                                renderItem={notificationRendering}
+                                showsVerticalScrollIndicator={false}
+                            /> : null}
+                    {/* <View style={styles.notificationcontainer}>
                         <View style={styles.notificationitems}>
                             <View style={styles.profilepiccontainer}>
                                 <Image source={require('../../Assets/Images/pharmacy1.png')} style={{ width: '100%', height: undefined, aspectRatio: 1, borderRadius: 100 }} />
                             </View>
-                            <View style={{width: 230}}>
-                            <Text>
-                                Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                            </Text>
+                            <View style={{ width: 230 }}>
+                                <Text>
+                                    Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+                                </Text>
                             </View>
-                           
+
                         </View>
-                        <View style={{justifyContent: 'flex-end'}}>
-                            
+                        <View style={{ justifyContent: 'flex-end' }}>
+
                         </View>
 
-                    </View>
+                    </View> */}
                 </View>
             </ScrollView>
                         {
@@ -82,12 +136,13 @@ const styles = StyleSheet.create({
     maincontainer: {
         height: '100%',
         width: '100%',
-        marginVertical: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 60
     },
     notificationcontainer: {
         paddingVertical: 5,
-        width: '96%',
+        width: '100%',
         borderRadius: 10,
         marginTop: 10,
         backgroundColor: '#e7e7e7',
@@ -103,7 +158,8 @@ const styles = StyleSheet.create({
         borderColor: 'ash',
         marginRight: 3,
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center',
+        margin : 10
 
     },
     notificationitems: {

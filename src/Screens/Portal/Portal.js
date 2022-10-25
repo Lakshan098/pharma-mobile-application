@@ -99,7 +99,7 @@ export default function Portal({ navigation }) {
                 <ImageBackground
                     style={styles.coverImage}
                     imageStyle={{ borderRadius: 10 }}
-                    source={require('../../Assets/Images/pharmacy1.png')}
+                    source={{uri : navigation.getParam('profile')}}
                 >
 
                     <TouchableHighlight style={styles.darkness}>
