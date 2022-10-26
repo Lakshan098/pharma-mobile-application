@@ -20,7 +20,7 @@ export default function Navbar({ navigation }) {
     const [viewed, setViewed] = useState();
     useEffect(() => {
         client.post('/User/checkNotificationViewed', { uid: uid }).then((response) => {
-            if (response.data.result = true) {
+            if (response.data.result == true) {
                 setViewed(0)
             }
             else {

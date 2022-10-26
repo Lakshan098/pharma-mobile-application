@@ -78,12 +78,12 @@ export default function OrdersHistory({ navigation }) {
 
 
     useEffect(() => {
-
-        console.log(uid)
-        client.post('/Customer/getOrdersByUid', { uid: uid }).then((response) => {
-
+        
+        client.post('/Customer/getOrdersByUid', {uid : uid}).then((response) => {
+            console.log("Hello");
             setOrderList([])
             console.log(response.data);
+            if(response.data != []){
             response.data.map((object) => {
                 if (object.status == "completed") {
                     setOrderList(prevState => [...prevState,
@@ -112,7 +112,7 @@ export default function OrdersHistory({ navigation }) {
                     ])
                 }
             })
-
+        }
         })
 
     }, []);
