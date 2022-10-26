@@ -55,7 +55,7 @@ export default function DeliveryDashboard({navigation}) {
                     </Text>
                 </View>
 
-                <View style={styles.mapcontainer}>
+                {/* <View style={styles.mapcontainer}>
                     <MapView style={styles.map}
                         region={{
                             latitude: 6.9010964999999995,
@@ -76,7 +76,7 @@ export default function DeliveryDashboard({navigation}) {
 
 
                     </MapView>
-                </View>
+                </View> */}
 
                 <TouchableOpacity
                 onPress={confirmation}
