@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, Button, Alert,Keyboard } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import client from '../../Api/client';
 
@@ -82,7 +82,7 @@ const StripeApp = ({order_id,navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onPress={Keyboard.dismiss}>
       <TextInput
         autoCapitalize="none"
         placeholder="Amount"

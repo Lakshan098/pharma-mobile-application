@@ -18,7 +18,7 @@ export default function OngoingOrders({ navigation }) {
 
 
     useEffect(() => {
-        client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
+        client.post('/Customer/getOrdersByUid', { uid : uid }).then((response) => {
             if (response) {
                 setOrderList([]);
                 response.data.map((object) => {
@@ -55,8 +55,9 @@ export default function OngoingOrders({ navigation }) {
         })
 
         const interval = setInterval(() => {
+            
             client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
-                if (response) {
+                if (response.data) {
                     setOrderList([]);
                     response.data.map((object) => {
                         if (object.status != "completed") {
@@ -91,7 +92,7 @@ export default function OngoingOrders({ navigation }) {
 
             })
 
-        }, 30000);
+        }, 20000);
         return () => clearInterval(interval);
 
 

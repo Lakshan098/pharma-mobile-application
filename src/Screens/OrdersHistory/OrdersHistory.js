@@ -80,7 +80,7 @@ export default function OrdersHistory({ navigation }) {
     useEffect(() => {
 
         console.log(uid)
-        client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
+        client.post('/Customer/getOrdersByUid', { uid: uid }).then((response) => {
 
             setOrderList([])
             console.log(response.data);
@@ -269,41 +269,43 @@ export default function OrdersHistory({ navigation }) {
                     (item.delivery_agent_id == null && item.status == "delivery") ?
                         <View style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}><Text style={{ fontSize: 16, fontFamily: 'Raleway-ExtraBold', }}>Searching for delivery agent...!</Text><ActivityIndicator size={'large'}></ActivityIndicator></View> : null
                 }
+                {(item.delivery_need == 1) ?
 
-                <View style={styles.container}>
 
-                    <Text style={styles.textStyle}>How was your experience with {item.delivery_agent_name}</Text>
-                    <Text style={styles.textStyleSmall}>Please Rate</Text>
-                    {/*View to hold our Stars*/}
-                    <CustomRatingBar2 />
-                    <Text style={styles.textStyle}>
-                        {/*To show the rating selected*/}
-                        {deliveryagentdefaultRating} / {Math.max.apply(null, maxRating)}
-                    </Text>
-                    <Pressable
-                        activeOpacity={0.7}
-                        style={styles.buttonStyle}
-                        onPress={() => Alert.alert("Rating Successful", "Confirmation",
-                            [
-                                {
-                                    text: "Cancel",
-                                    onPress: () => console.log("Cancel Pressed"),
-                                    style: "cancel"
-                                },
-                                {
-                                    text: "Ok",
-                                    onPress: () => {
-                                        client.post('/Customer/ratings', { uid: item.delivery_agent_id, rate: deliveryagentdefaultRating, type: "delivery_agent" }).then((response) => {
+                    <View style={styles.container}>
 
-                                        }, [])
+                        <Text style={styles.textStyle}>How was your experience with {item.delivery_agent_name}</Text>
+                        <Text style={styles.textStyleSmall}>Please Rate</Text>
+                        {/*View to hold our Stars*/}
+                        <CustomRatingBar2 />
+                        <Text style={styles.textStyle}>
+                            {/*To show the rating selected*/}
+                            {deliveryagentdefaultRating} / {Math.max.apply(null, maxRating)}
+                        </Text>
+                        <Pressable
+                            activeOpacity={0.7}
+                            style={styles.buttonStyle}
+                            onPress={() => Alert.alert("Rating Successful", "Confirmation",
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "Ok",
+                                        onPress: () => {
+                                            client.post('/Customer/ratings', { uid: item.delivery_agent_id, rate: deliveryagentdefaultRating, type: "delivery_agent" }).then((response) => {
+
+                                            }, [])
+                                        }
                                     }
-                                }
-                            ])}>
-                        {/*Clicking on button will show the rating as an alert*/}
-                        <Text style={styles.buttonTextStyle}>Rate the {item.delivery_agent_name}</Text>
-                    </Pressable>
-                </View>
-
+                                ])}>
+                            {/*Clicking on button will show the rating as an alert*/}
+                            <Text style={styles.buttonTextStyle}>Rate the {item.delivery_agent_name}</Text>
+                        </Pressable>
+                    </View> : null
+                }
             </View>
 
 
