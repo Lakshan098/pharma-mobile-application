@@ -56,8 +56,8 @@ export default function OngoingOrders({ navigation }) {
 
         const interval = setInterval(() => {
             
-            client.post('/Customer/getOrdersByUid', { uid }).then((response) => {
-                if (response.data) {
+            client.post('/Customer/getOrdersByUid', { uid : uid }).then((response) => {
+                if (response.data == []) {
                     setOrderList([]);
                     response.data.map((object) => {
                         if (object.status != "completed") {

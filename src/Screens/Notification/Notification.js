@@ -28,7 +28,6 @@ export default function Notification({ navigation }) {
         client.post('/User/getNotifications', { uid : uid }).then((response) => {
             setNotification([]);
             console.log(response.data);
-            if (response.data) {
                 response.data.map((object) => {
 
                     setNotification(prevState => [...prevState,
@@ -40,7 +39,7 @@ export default function Notification({ navigation }) {
                     }
                     ])
                 })
-            }
+            
             console.log(notification);
         })
 
