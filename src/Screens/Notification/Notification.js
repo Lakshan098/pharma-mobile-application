@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground,FlatList } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, Image, TouchableWithoutFeedback, TextInput, TouchableOpacity, ScrollView, Modal, ImageBackground, FlatList } from 'react-native';
 import { globalStyles } from '../../../Styles/Global';
 import ActorSelectRadioButton from '../../Components/ActorSelectRadioButton/ActorSelectRadioButton';
 import { Formik } from 'formik';
@@ -7,41 +7,40 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Footer from '../../Components/Footer/CustomerFooter';
 import DelFooter from '../../Components/Footer/DeliveryFooter';
 import Navbar from '../../Components/Navbar/Navbar';
-
 import client from '../../Api/client';
-
-
-
 import DelNavbar from '../../Components/Navbar/DeliveryNavbar';
-export default function CustomerProfile({ navigation }) {
-    const uid = window.loggedUserId;
-    const notifications = [{
-        key: 1,
-        image: "",
-        notification: "Your order is processing",
-        timestamp: "",
 
-    }]
+export default function Notification({ navigation }) {
+    const uid = window.loggedUserId;
+    const user_type = window.loggedUserType;
+    // const notifications = [{
+    //     key: 1,
+    //     image: "",
+    //     notification: "Your order is processing",
+    //     timestamp: "",
+
+    // }]
     const [notification, setNotification] = useState([]);
 
     useEffect(() => {
-       
+
         console.log(uid)
         client.post('/User/getNotifications', { uid : uid }).then((response) => {
             setNotification([]);
             console.log(response.data);
-            response.data.map((object) => {
-                
-                setNotification(prevState => [...prevState,
-                {
-                    key: object.notification_id,
-                    image: object.profile_pic,
-                    notification: object.notification,
-                    timestamp: object.time_stamp,
-                }
-                ])
-            })
+            if (response.data) {
+                response.data.map((object) => {
 
+                    setNotification(prevState => [...prevState,
+                    {
+                        key: object.notification_id,
+                        image: object.profile_pic,
+                        notification: object.notification,
+                        timestamp: object.time_stamp,
+                    }
+                    ])
+                })
+            }
             console.log(notification);
         })
 
@@ -61,7 +60,7 @@ export default function CustomerProfile({ navigation }) {
 
             </View>
             <View style={{ justifyContent: 'flex-end' }}>
-                <Text style={{fontSize: 11, color: 'gray'}}>
+                <Text style={{ fontSize: 11, color: 'gray' }}>
                     {item.timestamp}
                 </Text>
             </View>
@@ -85,12 +84,12 @@ export default function CustomerProfile({ navigation }) {
             <ScrollView>
                 <Text style={styles.header}>Notifications</Text>
                 <View style={styles.maincontainer}>
-                {(notification != []) ?
-                            <FlatList
-                                data={notification}
-                                renderItem={notificationRendering}
-                                showsVerticalScrollIndicator={false}
-                            /> : null}
+                    {(notification != []) ?
+                        <FlatList
+                            data={notification}
+                            renderItem={notificationRendering}
+                            showsVerticalScrollIndicator={false}
+                        /> : null}
                     {/* <View style={styles.notificationcontainer}>
                         <View style={styles.notificationitems}>
                             <View style={styles.profilepiccontainer}>
@@ -110,7 +109,7 @@ export default function CustomerProfile({ navigation }) {
                     </View> */}
                 </View>
             </ScrollView>
-                        {
+            {
                 (user_type == "customer") ?
                     <Footer></Footer>
                     :
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
         marginRight: 3,
         justifyContent: 'center',
         alignItems: 'center',
-        margin : 10
+        margin: 10
 
     },
     notificationitems: {
